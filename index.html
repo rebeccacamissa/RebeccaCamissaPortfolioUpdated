@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-ZA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rebecca Adams — Junior Web Developer</title>
+    <meta name="description" content="Rebecca Adams is a junior web developer in Cape Town, South Africa, bringing creative, solution-based web development from a strong customer service foundation." />
+    <meta name="theme-color" content="#f9f6ee" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+    <!-- Apply saved theme / view before paint to avoid a flash. -->
+    <script>
+      (function () {
+        try {
+          var d = document.documentElement;
+          var q = new URLSearchParams(location.search).get("view");
+          if (localStorage.getItem("theme") === "dark") d.dataset.theme = "dark";
+          if (q === "plain" || localStorage.getItem("view") === "plain") d.dataset.view = "plain";
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Two families, four weights, swap so text shows immediately. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@600;700&display=swap" />
+
+    <link rel="stylesheet" href="dist/styles.css" />
+    <script src="js/content.js" defer></script>
+    <script src="js/projects.js" defer></script>
+    <script src="js/certificates.js" defer></script>
+    <script src="js/core.js" defer></script>
+    <script src="js/sections/header.js" defer></script>
+    <script src="js/sections/hero.js" defer></script>
+    <script src="js/sections/story.js" defer></script>
+    <script src="js/sections/pivot.js" defer></script>
+    <script src="js/sections/voices.js" defer></script>
+    <script src="js/sections/toolkit.js" defer></script>
+    <script src="js/sections/work.js" defer></script>
+    <script src="js/sections/certificates.js" defer></script>
+    <script src="js/sections/contact.js" defer></script>
+    <script src="js/sections/footer.js" defer></script>
+    <script src="js/main.js" defer></script>
+  </head>
+
+  <body id="top" class="min-h-screen font-sans antialiased">
+    <a href="#main"
+       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-highlight focus:px-4 focus:py-2 focus:font-bold focus:text-onyx">
+      Skip to content
+    </a>
+
+    <header id="site-header"
+            class="sticky top-0 z-40 border-b-2 border-ink bg-paper/90 backdrop-blur-sm plain:static plain:backdrop-blur-none"></header>
+
+    <main id="main">
+      <!-- 01 · Hero (rendered from js/content.js) -->
+      <section id="hero" aria-labelledby="hero-title" class="relative overflow-x-clip">
+        <noscript>
+          <div class="mx-auto max-w-6xl px-5 py-16 sm:px-8">
+            <h1 id="hero-title" class="font-display text-5xl font-bold">Hello, I'm Rebecca – Junior Web Developer</h1>
+            <p class="mt-4 max-w-xl text-lg">An emerging tech professional bringing creative, solution-based web development from a strong customer service foundation.</p>
+            <p class="mt-6"><a class="btn btn-secondary" href="assets/rebecca-adams-cv.pdf">Download Resume (PDF)</a></p>
+          </div>
+        </noscript>
+      </section>
+
+      <!-- 02 · Profile / Story -->
+      <section id="story" aria-labelledby="story-title" class="section-band"></section>
+
+      <!-- 03 · The Pivot / Timeline -->
+      <section id="pivot" aria-labelledby="pivot-title" class="section-band"></section>
+
+      <!-- 04 · Mentorship & Growth -->
+      <section id="voices" aria-labelledby="voices-title" class="section-band overflow-x-clip"></section>
+
+      <!-- 06 · Toolkit -->
+      <section id="toolkit" aria-labelledby="toolkit-title" class="section-band"></section>
+
+      <!-- 07 · Selected Work (data: js/projects.js) -->
+      <section id="work" aria-labelledby="work-title" class="section-band"></section>
+
+      <!-- 08 · Certificates (data: js/certificates.js) -->
+      <section id="certificates" aria-labelledby="certificates-title" class="section-band"></section>
+
+      <!-- 09 · Contact / Ask Rebecca (form → Formspree) -->
+      <section id="contact" aria-labelledby="contact-title" class="section-band"></section>
+    </main>
+
+    <footer id="site-footer" class="section-band"></footer>
+
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+  </body>
+</html>
