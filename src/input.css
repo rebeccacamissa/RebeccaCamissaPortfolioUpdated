@@ -16,6 +16,7 @@
   --color-accent: #2563eb;
   --color-on-accent: #ffffff;
   --color-highlight: #fde047;
+  --color-coral: #ff6b6b;
   /* Fixed dark text for use on yellow, regardless of theme. */
   --color-onyx: #18181b;
 
@@ -44,6 +45,7 @@
   --color-ink-soft: #d6d3cb;
   --color-accent: #7cb0ff;
   --color-on-accent: #18181b;
+  --color-coral: #ff8a8a;
   color-scheme: dark;
 }
 
@@ -578,6 +580,125 @@
     color: var(--color-ink);
   }
 
+  /* ---------- 01 · Hero photo (polaroid) ---------- */
+  .hero-photo {
+    position: relative;
+    z-index: 1;
+    width: min(250px, 72%);
+    margin: 0 auto 1.75rem;
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-paper);
+    padding: 10px 10px 0;
+    box-shadow: 7px 7px 0 0 var(--color-ink);
+    rotate: -3deg;
+    transition: rotate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), translate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease-out;
+  }
+  .hero-photo img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: 50% 30%;
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-paper-deep);
+  }
+  .hero-photo-caption {
+    @apply py-2.5 text-center font-display text-sm font-bold tracking-wide;
+  }
+  .hero-photo-sticker {
+    @apply absolute -right-5 -top-5 grid size-16 place-items-center border-2 border-ink bg-onyx font-display text-xl font-bold text-highlight;
+    rotate: 9deg;
+    box-shadow: 3px 3px 0 0 var(--color-ink);
+  }
+  @media (hover: hover) {
+    .hero-photo:hover {
+      rotate: 0deg;
+      translate: 0 -6px;
+      box-shadow: 11px 13px 0 0 var(--color-coral);
+    }
+  }
+  @media (min-width: 64rem) {
+    .hero-photo {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 250px;
+      margin: 0;
+      translate: -50% -50%;
+    }
+    @media (hover: hover) {
+      .hero-photo:hover {
+        translate: -50% calc(-50% - 6px);
+      }
+    }
+  }
+
+  /* ---------- Colour energy ---------- */
+  /* Section number chips cycle yellow → coral → blue down the page. */
+  main > section:nth-of-type(3n) .eyebrow-num {
+    background-color: var(--color-coral);
+    color: var(--color-onyx);
+  }
+  main > section:nth-of-type(3n + 1) .eyebrow-num {
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+  }
+  /* Hover shadows alternate pop blue / electric coral. */
+  li:nth-child(even) > .lift-card,
+  .carousel-slide:nth-child(even) .lift-card {
+    --pop: var(--color-coral);
+  }
+  @media (hover: hover) {
+    .lift-card:hover {
+      border-color: var(--pop, var(--color-accent));
+      box-shadow: 8px 10px 0 0 var(--pop, var(--color-accent));
+    }
+    .project-card.lift-card:hover .band-grid {
+      background-position: 6px 6px;
+    }
+  }
+  .band-grid {
+    background-image:
+      linear-gradient(rgb(24 24 27 / 0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(24 24 27 / 0.1) 1px, transparent 1px);
+    background-size: 12px 12px;
+    transition: background-position 0.4s ease-out;
+  }
+
+  /* Kinetic marquee band */
+  .marquee {
+    overflow: hidden;
+    border-block: 2px solid var(--color-ink);
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.9rem 0;
+    animation: marquee 38s linear infinite;
+  }
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+  .marquee-item {
+    @apply font-display text-lg font-bold uppercase tracking-[0.08em] whitespace-nowrap sm:text-xl;
+  }
+  .marquee-star {
+    @apply font-display text-xl;
+  }
+  .marquee-star-0 { color: var(--color-highlight); }
+  .marquee-star-1 { color: var(--color-coral); }
+  .marquee-star-2 { color: #7cb0ff; }
+  [data-theme="dark"] .marquee {
+    background-color: var(--color-highlight);
+    color: var(--color-onyx);
+  }
+  [data-theme="dark"] .marquee-star { color: var(--color-onyx); }
+
   /* ---------- 07 · Live GitHub feed ---------- */
   .gh-feed {
     @apply border-2 border-dashed border-ink/40 bg-paper-deep p-4;
@@ -659,17 +780,364 @@
     background-color: #fee2e2;
     color: #7f1d1d;
   }
+
+  /* ---------- Footer · fun fact ---------- */
+  .fun-fact {
+    @apply relative flex items-start gap-4 border-2 border-ink p-5 text-onyx sm:gap-6 sm:p-7;
+    background-color: var(--color-highlight);
+    background-image:
+      linear-gradient(rgb(24 24 27 / 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(24 24 27 / 0.07) 1px, transparent 1px);
+    background-size: 18px 18px;
+    box-shadow: 7px 7px 0 0 var(--color-ink);
+    rotate: -0.6deg;
+    transition: rotate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease-out;
+  }
+  @media (hover: hover) {
+    .fun-fact:hover {
+      rotate: 0deg;
+      box-shadow: 10px 10px 0 0 var(--color-coral);
+    }
+  }
+  .fun-fact-badge {
+    @apply grid size-12 shrink-0 place-items-center border-2 border-onyx bg-onyx text-2xl sm:size-14 sm:text-3xl;
+    rotate: -8deg;
+  }
+
+  /* ---------- Adam · cat site guide ---------- */
+  #site-footer {
+    padding-bottom: 6.5rem; /* keep footer actions clear of Adam */
+  }
+  .adam-stage {
+    position: fixed;
+    right: 14px;
+    bottom: 6px;
+    z-index: 45;
+    width: 104px;
+    height: 100px;
+    pointer-events: none;
+  }
+  .adam-stage[hidden] { display: none; }
+  .adam-walker {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 104px;
+    animation: adam-walk 20s ease-in-out infinite;
+  }
+  .adam:not([data-state="idle"]) .adam-walker {
+    animation-play-state: paused;
+  }
+  .adam-cat {
+    display: block;
+    width: 104px;
+    cursor: pointer;
+    pointer-events: auto;
+    border-radius: 14px;
+    translate: var(--chase-x, 0px) 0;
+    transition: translate 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .adam-cat:focus-visible {
+    outline: 3px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+  .adam-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(3px 3px 0 var(--color-ink));
+  }
+  .adam-svg * {
+    transform-box: view-box;
+  }
+  .cat-figure { transform-origin: 60px 108px; }
+  .cat-head { transform-origin: 60px 74px; transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .cat-tail { transform-origin: 84px 94px; animation: adam-tail 2.6s ease-in-out infinite; }
+  .cat-ears { transform-origin: 60px 32px; transition: transform 0.25s; }
+  .cat-pupils { transform: translate(var(--px, 0px), var(--py, 0px)); transition: transform 0.12s ease-out; }
+  .cat-paw-l, .cat-paw-r { transform-origin: center; }
+  .cat-eyes-closed, .cat-eyes-happy, .cat-zzz, .cat-hearts, .cat-purr { opacity: 0; transition: opacity 0.25s; }
+  .cat-eyes-open { transition: opacity 0.2s; }
+
+  /* idle: amble + gentle sway */
+  .adam[data-state="idle"] .cat-figure { animation: adam-sway 1.4s ease-in-out infinite alternate; }
+  .adam[data-state="idle"] .cat-paw-l { animation: adam-step 0.7s ease-in-out infinite alternate; }
+  .adam[data-state="idle"] .cat-paw-r { animation: adam-step 0.7s ease-in-out -0.35s infinite alternate; }
+
+  /* playful: perked ears, crouch-wiggle, pounce on demand */
+  .adam[data-state="playful"] .cat-ears { transform: translateY(-2px) scale(1.06); }
+  .adam[data-state="playful"] .cat-figure { animation: adam-wiggle 0.45s ease-in-out infinite alternate; }
+  .adam-cat.is-pouncing .cat-figure { animation: adam-pounce 0.55s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  /* happy: bounce, hearts, purr */
+  .adam[data-state="happy"] .cat-figure { animation: adam-bounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 2; }
+  .adam[data-state="happy"] .cat-eyes-open { opacity: 0; }
+  .adam[data-state="happy"] .cat-eyes-happy,
+  .adam[data-state="happy"] .cat-hearts,
+  .adam[data-state="happy"] .cat-purr { opacity: 1; }
+  .adam[data-state="happy"] .cat-heart1 { animation: adam-float 1.1s ease-out infinite; }
+  .adam[data-state="happy"] .cat-heart2 { animation: adam-float 1.1s ease-out 0.35s infinite; }
+  .adam[data-state="happy"] .cat-purr { animation: adam-purr 0.12s linear infinite alternate; }
+  .adam[data-state="happy"] .cat-tail { animation-duration: 0.6s; }
+
+  /* helping: sits attentively, head tilted toward the bubble */
+  .adam[data-state="helping"] .cat-head { transform: rotate(-7deg); }
+  .adam[data-state="helping"] .cat-pupils { transform: translate(-2px, -2px); }
+
+  /* sleeping: curled down, closed eyes, breathing, Zzz */
+  .adam[data-state="sleeping"] .cat-eyes-open { opacity: 0; }
+  .adam[data-state="sleeping"] .cat-eyes-closed,
+  .adam[data-state="sleeping"] .cat-zzz { opacity: 1; }
+  .adam[data-state="sleeping"] .cat-head { transform: translate(6px, 10px) rotate(-14deg); }
+  .adam[data-state="sleeping"] .cat-ears { transform: scaleY(0.88); }
+  .adam[data-state="sleeping"] .cat-figure { animation: adam-breathe 3.4s ease-in-out infinite; }
+  .adam[data-state="sleeping"] .cat-tail { animation: none; transform: rotate(-38deg) translate(-6px, 10px); }
+  .adam[data-state="sleeping"] .cat-z1 { animation: adam-z 2.8s ease-in infinite; }
+  .adam[data-state="sleeping"] .cat-z2 { animation: adam-z 2.8s ease-in 1.4s infinite; }
+
+  /* Speech-bubble chat panel */
+  .adam-panel {
+    position: fixed;
+    right: 16px;
+    bottom: 118px;
+    z-index: 46;
+    display: flex;
+    flex-direction: column;
+    width: min(370px, calc(100vw - 32px));
+    max-height: min(72vh, 580px);
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: 7px 7px 0 0 var(--color-ink);
+    transform-origin: 90% 100%;
+    animation: adam-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .adam-panel[hidden] { display: none; }
+  .adam-panel::after {
+    content: "";
+    position: absolute;
+    right: 44px;
+    bottom: -13px;
+    width: 22px;
+    height: 22px;
+    rotate: 45deg;
+    border-right: 2px solid var(--color-ink);
+    border-bottom: 2px solid var(--color-ink);
+    background-color: var(--color-paper);
+  }
+  .adam-head {
+    @apply flex items-center justify-between gap-3 border-b-2 border-ink px-4 py-2.5 text-onyx;
+    background-color: var(--color-coral);
+  }
+  .adam-icon-btn {
+    @apply grid size-8 cursor-pointer place-items-center border-2 border-onyx bg-transparent text-onyx;
+    transition: background-color 0.15s, translate 0.15s;
+  }
+  .adam-icon-btn:hover {
+    background-color: rgb(24 24 27 / 0.12);
+    translate: 0 -1px;
+  }
+  .adam-log {
+    @apply flex flex-1 flex-col gap-3 overflow-y-auto p-4;
+    min-height: 9rem;
+    overscroll-behavior: contain;
+  }
+  .adam-msg {
+    max-width: 90%;
+    border: 2px solid var(--color-ink);
+    padding: 0.55rem 0.8rem;
+    font-size: 0.93rem;
+    line-height: 1.45;
+    animation: adam-msg-in 0.3s ease-out;
+  }
+  .adam-msg ul { list-style: disc; padding-left: 1.1rem; margin-top: 0.35rem; }
+  .adam-msg li + li { margin-top: 0.2rem; }
+  .adam-msg-bot {
+    align-self: flex-start;
+    background-color: var(--color-paper-deep);
+    box-shadow: 3px 3px 0 0 var(--color-ink);
+  }
+  .adam-msg-user {
+    align-self: flex-end;
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
+    box-shadow: 3px 3px 0 0 var(--color-ink);
+  }
+  .adam-actions { @apply mt-2.5 flex flex-wrap gap-2; }
+  .adam-action {
+    @apply inline-flex cursor-pointer items-center gap-1 border-2 border-ink bg-paper px-2 py-1 font-display text-xs font-bold text-ink;
+    box-shadow: 2px 2px 0 0 var(--color-ink);
+    transition: translate 0.15s, box-shadow 0.15s, background-color 0.15s;
+  }
+  .adam-action:hover {
+    translate: -1px -1px;
+    background-color: var(--color-highlight);
+    color: var(--color-onyx);
+    box-shadow: 3px 3px 0 0 var(--color-ink);
+  }
+  .adam-typing { display: inline-flex; gap: 4px; padding: 4px 0; }
+  .adam-typing i {
+    width: 7px; height: 7px; border-radius: 9999px;
+    background-color: var(--color-ink);
+    animation: adam-dot 1s ease-in-out infinite;
+  }
+  .adam-typing i:nth-child(2) { animation-delay: 0.15s; }
+  .adam-typing i:nth-child(3) { animation-delay: 0.3s; }
+  .adam-chips { @apply flex flex-wrap gap-1.5 px-4 pb-3; }
+  .adam-chip {
+    @apply cursor-pointer border-2 border-ink bg-paper px-2 py-1 text-left font-display text-xs font-bold text-ink;
+    box-shadow: 2px 2px 0 0 var(--color-ink);
+    transition: translate 0.15s, box-shadow 0.15s, background-color 0.15s;
+  }
+  .adam-chip:hover {
+    translate: 0 -2px;
+    background-color: var(--color-coral);
+    color: var(--color-onyx);
+    box-shadow: 3px 4px 0 0 var(--color-ink);
+  }
+  .adam-form { @apply flex gap-2 border-t-2 border-ink p-3; }
+  .adam-input {
+    @apply min-w-0 flex-1 border-2 border-ink bg-paper-deep px-3 py-2 text-sm text-ink placeholder:text-ink-soft;
+    border-radius: 0;
+  }
+  .adam-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 3px 3px 0 0 var(--color-accent);
+  }
+  .adam-send {
+    @apply grid size-10 shrink-0 cursor-pointer place-items-center border-2 border-ink bg-accent text-on-accent;
+    box-shadow: 3px 3px 0 0 var(--color-ink);
+    transition: translate 0.15s, box-shadow 0.15s;
+  }
+  .adam-send:hover { translate: -1px -1px; box-shadow: 4px 4px 0 0 var(--color-ink); }
+  .adam-send:active { translate: 2px 2px; box-shadow: none; }
+  /* Welcome nudge bubble */
+  .adam-nudge {
+    position: fixed;
+    right: 18px;
+    bottom: 116px;
+    z-index: 46;
+    display: flex;
+    align-items: flex-start;
+    max-width: min(270px, calc(100vw - 32px));
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-highlight);
+    color: var(--color-onyx);
+    box-shadow: 5px 5px 0 0 var(--color-ink);
+    transform-origin: 85% 100%;
+    animation: adam-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .adam-nudge[hidden] { display: none; }
+  .adam-nudge::after {
+    content: "";
+    position: absolute;
+    right: 40px;
+    bottom: -11px;
+    width: 18px;
+    height: 18px;
+    rotate: 45deg;
+    border-right: 2px solid var(--color-ink);
+    border-bottom: 2px solid var(--color-ink);
+    background-color: var(--color-highlight);
+  }
+  .adam-nudge-text {
+    @apply cursor-pointer px-3.5 py-3 text-left font-display text-sm font-bold leading-snug text-onyx;
+  }
+  .adam-nudge-text:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+  .adam-nudge-close {
+    @apply m-1.5 grid size-7 shrink-0 cursor-pointer place-items-center border-2 border-onyx text-onyx;
+  }
+  .adam-nudge-close:hover { background-color: rgb(24 24 27 / 0.12); }
+  @media (max-width: 639px) {
+    .adam-nudge { right: 8px; bottom: 88px; }
+    .adam-nudge::after { right: 28px; }
+  }
+
+  .adam-restore {
+    @apply fixed bottom-3 right-3 z-45 inline-flex cursor-pointer items-center gap-1.5 border-2 border-ink bg-highlight px-3 py-2 font-display text-sm font-bold text-onyx;
+    box-shadow: 3px 3px 0 0 var(--color-ink);
+  }
+  .adam-restore[hidden] { display: none; }
+
+  @media (max-width: 639px) {
+    .adam-stage, .adam-walker, .adam-cat { width: 78px; }
+    .adam-stage { height: 76px; right: 8px; }
+    .adam-walker { animation: none; }
+    .adam-panel { right: 8px; bottom: 90px; width: calc(100vw - 16px); max-height: 66vh; }
+    .adam-panel::after { right: 30px; }
+  }
 }
 
-/* Scroll reveal — only armed once JS confirms it can reveal (see main.js). */
+@keyframes marquee { to { transform: translateX(calc(-50% - 0.75rem)); } }
+@keyframes adam-walk {
+  0%, 10% { transform: translateX(0); }
+  45%, 55% { transform: translateX(-130px); }
+  90%, 100% { transform: translateX(0); }
+}
+@keyframes adam-sway { from { transform: rotate(-2.5deg); } to { transform: rotate(2.5deg) translateY(-1.5px); } }
+@keyframes adam-step { from { transform: translateY(0); } to { transform: translateY(-3px); } }
+@keyframes adam-tail { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(12deg); } }
+@keyframes adam-wiggle { from { transform: rotate(-4deg) scale(1.02, 0.97); } to { transform: rotate(4deg) scale(1.02, 0.97); } }
+@keyframes adam-pounce {
+  0% { transform: scale(1.05, 0.9); }
+  45% { transform: translateY(-22px) scale(0.95, 1.08); }
+  100% { transform: translateY(0) scale(1); }
+}
+@keyframes adam-bounce {
+  0% { transform: scale(1.08, 0.9); }
+  50% { transform: translateY(-16px) scale(0.96, 1.06); }
+  100% { transform: translateY(0) scale(1); }
+}
+@keyframes adam-breathe {
+  0%, 100% { transform: translateY(6px) scale(1.04, 0.86); }
+  50% { transform: translateY(7px) scale(1.06, 0.83); }
+}
+@keyframes adam-float {
+  0% { transform: translateY(4px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-14px); opacity: 0; }
+}
+@keyframes adam-purr { from { transform: translateX(-0.6px); } to { transform: translateX(0.6px); } }
+@keyframes adam-z {
+  0% { transform: translate(0, 6px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translate(8px, -12px); opacity: 0; }
+}
+@keyframes adam-pop { from { transform: scale(0.85) translateY(12px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes adam-msg-in { from { transform: translateY(6px); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes adam-dot { 0%, 100% { transform: translateY(0); opacity: 0.4; } 50% { transform: translateY(-4px); opacity: 1; } }
+
+/* Scroll reveal — only armed once JS confirms it can reveal (see main.js).
+   Items fade up with a slight spring overshoot; --reveal-delay staggers rows. */
 .reveal-ready [data-reveal] {
   opacity: 0;
   translate: 0 28px;
-  transition: opacity 0.6s ease-out, translate 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  scale: 0.96;
+  transition:
+    opacity 0.55s ease-out var(--reveal-delay, 0ms),
+    translate 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) var(--reveal-delay, 0ms),
+    scale 0.75s cubic-bezier(0.34, 1.56, 0.64, 1) var(--reveal-delay, 0ms);
 }
 .reveal-ready [data-reveal].is-visible {
   opacity: 1;
   translate: 0 0;
+  scale: 1;
+}
+/* Kinetic section headings: a left-to-right wipe with a small lift. */
+.reveal-ready [data-reveal="title"] {
+  opacity: 1;
+  scale: 1;
+  translate: 0 14px;
+  clip-path: inset(-20% 100% -20% 0);
+  transition:
+    clip-path 0.9s cubic-bezier(0.7, 0, 0.2, 1),
+    translate 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.reveal-ready [data-reveal="title"].is-visible {
+  translate: 0 0;
+  clip-path: inset(-20% -5% -20% 0);
 }
 
 /* Reduced motion: keep hover feedback, drop ambient animation. */
@@ -739,6 +1207,25 @@
 }
 [data-view="plain"] [data-reveal] {
   opacity: 1 !important;
+  clip-path: none !important;
+}
+[data-view="plain"] .fun-fact {
+  border: 0 !important;
+  background: none !important;
+  padding: 0 !important;
+  color: inherit !important;
+}
+[data-view="plain"] .hero-photo {
+  position: static !important;
+  width: 200px !important;
+  margin: 0 0 1rem !important;
+  border: 0 !important;
+  padding: 0 !important;
+}
+[data-view="plain"] .adam-nudge,
+[data-view="plain"] #adam,
+[data-view="plain"] .marquee {
+  display: none !important;
 }
 [data-view="plain"] :is(.eyebrow, .eyebrow-num, .eyebrow-label, .lift-card, .metric, .quote-card, .quote-attr, .tl-era) {
   border: 0 !important;

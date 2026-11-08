@@ -12,7 +12,7 @@
       const metrics = s.metrics
         .map(
           (m) => `
-          <li class="metric-wrap relative" data-metric-wrap="${esc(m.id)}">
+          <li class="metric-wrap relative" data-metric-wrap="${esc(m.id)}" data-reveal>
             <button type="button" class="metric" data-metric="${esc(m.id)}"
                     aria-pressed="false" aria-describedby="metric-tip-${esc(m.id)}">
               <span class="block font-display text-6xl font-bold leading-none tabular-nums sm:text-7xl" aria-hidden="true"

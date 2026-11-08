@@ -8,7 +8,7 @@
   const AVATAR = [
     "bg-highlight text-onyx",
     "bg-accent text-on-accent",
-    "bg-paper-deep text-ink",
+    "bg-coral text-onyx",
     "bg-onyx text-highlight",
   ];
 

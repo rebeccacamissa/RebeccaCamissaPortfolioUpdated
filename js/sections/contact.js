@@ -32,7 +32,7 @@
 
       const channels = [
         email && `
-          <li>
+          <li data-reveal>
             <a href="mailto:${esc(email)}" class="contact-channel">
               <span class="contact-channel-icon bg-highlight text-onyx" aria-hidden="true">
                 ${Site.svg('<rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/>', "size-5")}
@@ -45,7 +45,7 @@
             </a>
           </li>`,
         linkedin && `
-          <li>
+          <li data-reveal>
             <a href="${esc(linkedin)}" target="_blank" rel="noopener noreferrer" class="contact-channel"
                aria-label="${esc(c.channels.linkedinLabel)}: ${esc(site.name)} (opens in a new tab)">
               <span class="contact-channel-icon bg-accent text-on-accent" aria-hidden="true">${icon.linkedin}</span>

@@ -6,10 +6,22 @@
   // Visual placement for floating tags (UI concern, so it lives here, not in content).
   const TAG_LAYOUT = [
     { pos: "lg:top-[9%] lg:left-[5%]", style: "bg-highlight text-onyx -rotate-3 [animation-delay:0s]" },
-    { pos: "lg:top-[24%] lg:right-[4%]", style: "bg-paper text-ink rotate-2 [animation-delay:-1.8s]" },
+    { pos: "lg:top-[36%] lg:right-[3%]", style: "bg-paper text-ink rotate-2 [animation-delay:-1.8s]" },
     { pos: "lg:bottom-[25%] lg:left-[3%]", style: "bg-accent text-on-accent -rotate-1 [animation-delay:-3.6s]" },
-    { pos: "lg:bottom-[8%] lg:right-[7%]", style: "bg-highlight text-onyx rotate-3 [animation-delay:-5.2s]" },
+    { pos: "lg:bottom-[8%] lg:right-[7%]", style: "bg-coral text-onyx rotate-3 [animation-delay:-5.2s]" },
   ];
+
+  /* Kinetic marquee band under the hero — decorative, built from hero data. */
+  sections.marquee = {
+    render(site) {
+      const h = site.hero;
+      const items = [...h.tags, h.location, h.availability];
+      const run = items
+        .map((t, i) => `<span class="marquee-item">${esc(t)}</span><span class="marquee-star marquee-star-${i % 3}">✦</span>`)
+        .join("");
+      return `<div class="marquee-track">${run}${run}</div>`;
+    },
+  };
 
   sections.hero = {
     render(site) {
@@ -20,7 +32,7 @@
         .map((t, i) => {
           const l = TAG_LAYOUT[i % TAG_LAYOUT.length];
           return `
-          <li class="lg:absolute ${l.pos}">
+          <li class="relative z-10 lg:absolute ${l.pos}">
             <span class="tag motion-safe:lg:animate-float ${l.style}">${esc(t)}</span>
           </li>`;
         })
@@ -74,12 +86,20 @@
           </div>
 
           <!-- Visual column -->
-          <div class="plain-reset relative mt-2 min-w-0 border-2 border-ink bg-paper-deep p-6 shadow-brutal-lg paper-grid sm:p-8 lg:mt-0 lg:min-h-[460px] lg:p-0 plain:mt-8">
-            <div class="decor mx-auto mb-6 grid size-28 place-items-center border-2 border-ink bg-onyx font-display text-4xl font-bold shadow-brutal
-                        motion-safe:animate-float lg:absolute lg:inset-0 lg:m-auto lg:mb-auto lg:size-40 lg:-rotate-6 lg:text-6xl [animation-delay:-2.5s]"
-                 aria-hidden="true">
-              <span class="text-highlight">${esc(h.codeTag)}</span>
-            </div>
+          <div class="plain-reset relative mt-2 min-w-0 border-2 border-ink bg-paper-deep p-6 shadow-brutal-lg paper-grid sm:p-8 lg:mt-0 lg:min-h-[540px] lg:p-0 plain:mt-8">
+            ${
+              h.photo
+                ? `<figure class="hero-photo">
+                     <img src="${esc(h.photo.src)}" alt="${esc(h.photo.alt)}" width="${Number(h.photo.width)}" height="${Number(h.photo.height)}"
+                          fetchpriority="high" decoding="async" />
+                     <figcaption class="hero-photo-caption">${esc(h.photo.caption)}</figcaption>
+                     <span class="hero-photo-sticker decor" aria-hidden="true">${esc(h.codeTag)}</span>
+                   </figure>`
+                : `<div class="decor mx-auto mb-6 grid size-28 place-items-center border-2 border-ink bg-onyx font-display text-4xl font-bold shadow-brutal
+                               motion-safe:animate-float lg:absolute lg:inset-0 lg:m-auto lg:size-40 lg:-rotate-6 lg:text-6xl" aria-hidden="true">
+                     <span class="text-highlight">${esc(h.codeTag)}</span>
+                   </div>`
+            }
 
             <h2 class="sr-only plain:not-sr-only plain:mb-2 plain:font-bold">Highlights</h2>
             <ul class="plain-reset plain-list flex flex-wrap justify-center gap-4 lg:absolute lg:inset-0 lg:block" role="list">

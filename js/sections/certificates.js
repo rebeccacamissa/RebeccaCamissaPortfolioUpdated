@@ -4,7 +4,7 @@
   "use strict";
   const { esc, icon, eyebrow, highlight, announce, onceVisible, sections } = Site;
 
-  const CHIP = ["bg-highlight text-onyx", "bg-accent text-on-accent", "bg-onyx text-highlight", "bg-paper-deep text-ink"];
+  const CHIP = ["bg-highlight text-onyx", "bg-accent text-on-accent", "bg-onyx text-highlight", "bg-coral text-onyx"];
 
   const safeHttps = (url) => (/^https:\/\//i.test(url || "") ? url : "");
   // Local relative paths (assets/…) or https only — no javascript:/data: URLs.
@@ -49,7 +49,7 @@
       const cards = certs
         .map(
           (c, i) => `
-          <li data-cert-cat="${esc(c.category)}">
+          <li data-cert-cat="${esc(c.category)}" data-reveal>
             <button type="button" class="cert-card" data-cert="${i}" aria-pressed="false" aria-controls="cert-viewer">
               <span class="cert-chip ${chipClass(c)}" aria-hidden="true">${esc(initials(provider(c)))}</span>
               <span class="min-w-0 flex-1">

@@ -15,6 +15,7 @@
 - `js/core.js` = shared helpers (`window.Site`: esc, icons, eyebrow, cvLink, skillFilter…).
 - One file per section in `js/sections/`, each registering `Site.sections.<name> = { render(site), init?(el, site) }`; mount it in `MOUNTS` in `js/main.js` and add an empty `<section id>` in `index.html`.
 - Contact form posts to Formspree (`contact.formEndpoint` in `js/content.js`); Selected Work card with `feed` pulls the public GitHub API (no token, cached in sessionStorage).
+- Adam (cat guide, `js/sections/adam.js`): rule-based answers built from the data files — no AI service. His lines live in `content.adam`.
 - Styles: `src/input.css` (Tailwind v4 tokens + components) → `npm run build` → `dist/styles.css` (commit the build). Theme via `[data-theme="dark"]`, plain-text view via `[data-view="plain"]` — new components need plain-view overrides.
 
 ## Data Structure

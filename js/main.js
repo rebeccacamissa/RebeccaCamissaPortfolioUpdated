@@ -25,6 +25,8 @@
     certificates: sections.certificates,
     contact: sections.contact,
     "site-footer": sections.footer,
+    marquee: sections.marquee,
+    adam: sections.adam,
   };
 
   Object.entries(MOUNTS).forEach(([id, section]) => {
@@ -143,16 +145,26 @@
 
   /* ------------------------- Scroll reveal ---------------------------- */
   // Only hide [data-reveal] elements once we know we can reveal them again.
+  // Section headings get a kinetic wipe; everything else fades up with a spring.
+  document.querySelectorAll('main section h2[id$="-title"]').forEach((h) => {
+    if (!h.hasAttribute("data-reveal")) h.setAttribute("data-reveal", "title");
+  });
+
   if (motionOK() && "IntersectionObserver" in window) {
     const io = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          entry.target.classList.add("is-visible");
-          io.unobserve(entry.target);
-        });
+        // Stagger items that arrive together (e.g. a row of cards), in DOM order.
+        entries
+          .filter((e) => e.isIntersecting)
+          .map((e) => e.target)
+          .sort((a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1))
+          .forEach((el, i) => {
+            el.style.setProperty("--reveal-delay", `${Math.min(i, 6) * 80}ms`);
+            el.classList.add("is-visible");
+            io.unobserve(el);
+          });
       },
-      { threshold: 0.15, rootMargin: "0px 0px -8% 0px" }
+      { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
     );
     document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
     root.classList.add("reveal-ready");

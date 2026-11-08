@@ -1,7 +1,7 @@
 /* 06 · Toolkit — category tabs, animated skill meters, filterable skill badges. */
 (function (Site) {
   "use strict";
-  const { esc, eyebrow, slug, motionOK, onceVisible, skillFilter, sections } = Site;
+  const { esc, eyebrow, slug, motionOK, skillFilter, sections } = Site;
 
   sections.toolkit = {
     render(site) {
@@ -150,10 +150,24 @@
       });
 
       select(cats[0].id);
-      onceVisible(el.querySelector('[role="tablist"]').parentElement, () => {
+      // Re-trigger the fill animation each time the meters scroll back into view.
+      const card = el.querySelector('[role="tablist"]').parentElement;
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const panel = panels.find((p) => !p.hidden);
+            if (entry.isIntersecting) {
+              seen = true;
+              fill(panel);
+            } else if (motionOK()) {
+              panel.querySelectorAll(".bar-fill").forEach((b) => b.classList.remove("is-filled"));
+            }
+          });
+        }, { threshold: 0.25 }).observe(card);
+      } else {
         seen = true;
         fill(panels.find((p) => !p.hidden));
-      }, { threshold: 0.25 });
+      }
 
       // If a highlighted skill lives in the other category, switch to it.
       skillFilter.subscribe((key) => {

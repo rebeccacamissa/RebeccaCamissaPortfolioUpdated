@@ -49,6 +49,13 @@ window.SITE_CONTENT = {
     },
 
     codeTag: "</>",
+    photo: {
+      src: "assets/rebecca-adams.jpg",
+      alt: "Portrait of Rebecca Adams smiling, wearing a black collared shirt and a plum headscarf",
+      width: 840,
+      height: 1417,
+      caption: "Rebecca · Cape Town",
+    },
     tags: [
       "HTML / CSS / PEOPLE",
       "Creative Tech",
@@ -281,6 +288,56 @@ window.SITE_CONTENT = {
       sending: "Sending…",
       success: "Thank you — your message is on its way. I'll reply as soon as I can.",
       error: "Something went wrong sending your message. Please try again, or email me directly.",
+    },
+  },
+
+  /* ------------------------- Footer · fun fact ------------------------- */
+  // Measured 8 Nov 2026: first visit ≈ 210 KB total (59 KB gzipped HTML/CSS/JS,
+  // 82 KB photo, 69 KB fonts). Re-measure if you add heavy images or libraries.
+  funFact: {
+    label: "Fun fact",
+    headline: "This site barely sips your data.",
+    text: "The whole page loads in about 210 KB — roughly a tenth of an average web page. On a 1 GB data bundle, you could open it around 5,000 times.",
+    how: "How? No heavy frameworks, just two font files and one photo. Certificates and the CV only download when you ask for them.",
+  },
+
+  /* ------------------------ Adam · cat site guide ---------------------- */
+  // Answers are assembled from this file + projects.js + certificates.js,
+  // so Adam stays in sync when content changes. These are his lines.
+  adam: {
+    name: "Adam",
+    role: "Rebecca's site guide",
+    sleepAfterMs: 18000,
+    // Welcome bubble shown once per visit, shortly after the page opens.
+    nudgeDelayMs: 2500,
+    nudgeDurationMs: 10000,
+    placeholder: "Ask Adam about Rebecca…",
+
+    quickReplies: [
+      { label: "Show me her best projects", intent: "projects" },
+      { label: "What are her top skills?", intent: "skills" },
+      { label: "How do I contact her?", intent: "contact" },
+      { label: "Download her CV", intent: "cv" },
+      { label: "Tell me about CAPACITI", intent: "capaciti" },
+    ],
+
+    text: {
+      greeting: "Oh, hi! My name is Adam 🐾 How can I help you explore Rebecca's work today?",
+      nudge: "Hi there, welcome! I'm Adam 🐾 I can help you explore Rebecca's work — just tap me!",
+      hello: "Hello again! 😺 Pick a question below, or type your own.",
+      thanks: "You're very welcome! *happy purr* 🐾",
+      who: "I'm Adam — a fluffy white cat with a pink bowtie and a very important job: helping you find your way around Rebecca's portfolio. I know her projects, skills, journey and how to reach her.",
+      fallback: "Hmm, I'm only a small cat, so I don't know that one yet 😿 Try one of the questions below — or send Rebecca a message and she'll answer herself.",
+      projectsIntro: "Here's what Rebecca has been building:",
+      projectAsk: "Tell me about",
+      skillsIntro: "A few highlights from Rebecca's toolkit:",
+      contactIntro: "Rebecca would love to hear from you! The quickest routes:",
+      cvIntro: "Here's Rebecca's CV — one tap and it's yours:",
+      certsIntro: "Rebecca's Coursera learning record has",
+      capacitiIntro: "Rebecca is currently on CAPACITI's",
+      backgroundIntro: "Rebecca's path so far — every step added a layer:",
+      testimonialsIntro: "Here's what colleagues say about her:",
+      locationIntro: "Rebecca is based in",
     },
   },
 };

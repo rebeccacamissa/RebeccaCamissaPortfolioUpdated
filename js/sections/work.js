@@ -3,7 +3,7 @@
   "use strict";
   const { esc, icon, eyebrow, highlight, pad, slug, skillFilter, onceVisible, sections } = Site;
 
-  const BAND = ["bg-highlight text-onyx", "bg-accent text-on-accent", "bg-onyx text-highlight"];
+  const BAND = ["bg-highlight text-onyx", "bg-accent text-on-accent", "bg-coral text-onyx"];
   const safeUrl = (url) => (/^https:\/\//i.test(url || "") ? url : "");
 
   function link(href, label, ariaLabel, ic) {
@@ -29,7 +29,7 @@
     return `
       <li class="min-w-0" data-reveal>
         <article class="project-card lift-card flex h-full flex-col" data-skills="${esc(keys)}" aria-labelledby="${id}">
-          <div class="flex items-center justify-between border-b-2 border-ink px-6 py-4 ${BAND[i % BAND.length]}">
+          <div class="band-grid flex items-center justify-between border-b-2 border-ink px-6 py-4 ${BAND[i % BAND.length]}">
             <span class="font-display text-4xl font-bold leading-none tabular-nums" aria-hidden="true">${pad(i + 1)}</span>
             <span class="font-display text-xs font-bold uppercase tracking-[0.16em]">${esc(p.kind || "Project")}</span>
           </div>
