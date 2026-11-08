@@ -10,7 +10,7 @@
      sleeping → after inactivity: curled down, Zzz                                  */
 (function (Site) {
   "use strict";
-  const { esc, icon, store, motionOK, cvLink, slug, sections } = Site;
+  const { esc, icon, store, motionOK, cvLink, slug, announce, confetti, sections } = Site;
 
   const INK = "#18181B";
 
@@ -22,7 +22,7 @@
         <text class="cat-z1" x="86" y="26" font-size="12">z</text>
         <text class="cat-z2" x="96" y="14" font-size="16">Z</text>
       </g>
-      <g class="cat-hearts" fill="#FF6B6B" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round">
+      <g class="cat-hearts" fill="#F472B6" stroke="${INK}" stroke-width="1.5" stroke-linejoin="round">
         <path class="cat-heart1" d="M94 20c-1.6-3.6-7.2-2.8-7.2 1.2 0 3.6 7.2 7.6 7.2 7.6s7.2-4 7.2-7.6c0-4-5.6-4.8-7.2-1.2z"/>
         <path class="cat-heart2" d="M22 26c-1.2-2.7-5.4-2.1-5.4.9 0 2.7 5.4 5.7 5.4 5.7s5.4-3 5.4-5.7c0-3-4.2-3.6-5.4-.9z"/>
       </g>
@@ -89,6 +89,8 @@
   /* --------------------------- Intent matching ------------------------- */
   // "=word" means whole-word match; otherwise prefix match ("certif" → certificate).
   const INTENTS = [
+    { id: "tour", words: ["tour", "show me around", "guide me", "walk me through", "look around"] },
+    { id: "meow", words: ["=meow", "=purr", "=party"] },
     { id: "data", words: ["data usage", "use data", "much data", "low data", "low-data", "data-light", "data friendly", "lightweight", "fun fact", "page size", "how big", "how heavy", "bandwidth", "sips"] },
     { id: "cv", words: ["=cv", "resume", "résumé", "curriculum"] },
     { id: "contact", words: ["contact", "email", "e-mail", "reach", "hire", "hiring", "message", "linkedin", "get in touch", "talk to", "interview", "connect with"] },
@@ -149,12 +151,35 @@
 
         <div class="adam-nudge" data-adam-nudge hidden>
           <button type="button" class="adam-nudge-text" data-adam-nudge-open aria-controls="adam-panel">
-            <span data-adam-nudge-msg role="status"></span>
+            <span data-adam-nudge-msg></span>
           </button>
-          <button type="button" class="adam-nudge-close" data-adam-nudge-close aria-label="Dismiss Adam's greeting">
+          <button type="button" class="adam-nudge-close" data-adam-nudge-close aria-label="Dismiss Adam's message">
             ${Site.svg('<path d="M6 6l12 12M18 6 6 18"/>', "size-3.5")}
           </button>
         </div>
+
+        <div class="adam-tour" data-adam-tour role="dialog" aria-labelledby="adam-tour-title" hidden>
+          <p class="adam-tour-step">
+            <span id="adam-tour-title">Tour with ${esc(a.name)}</span>
+            <span aria-hidden="true">·</span>
+            <span data-tour-count></span>
+          </p>
+          <p class="adam-tour-text" data-tour-text aria-live="polite"></p>
+          <div class="adam-tour-nav">
+            <button type="button" class="adam-action" data-tour-back>Back</button>
+            <button type="button" class="adam-action adam-action-primary" data-tour-next>Next</button>
+            <button type="button" class="adam-tour-end" data-tour-end>End tour</button>
+          </div>
+        </div>
+
+        <button type="button" class="adam-yarn" data-adam-yarn aria-label="Roll the yarn ball for ${esc(a.name)}">
+          <svg viewBox="0 0 40 40" aria-hidden="true" focusable="false">
+            <circle cx="20" cy="20" r="16" fill="#F472B6" stroke="#18181B" stroke-width="2.5"/>
+            <path d="M8 14c8 2 16 10 18 22M6 22c8 0 16 6 18 14M14 6c4 6 6 14 4 28M26 6c-2 8 2 16 8 20M33 14c-8 0-14 4-20 12"
+                  fill="none" stroke="#18181B" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M34 28c4 2 5 6 3 9" fill="none" stroke="#18181B" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
 
         <button type="button" class="adam-restore" data-adam-restore hidden aria-label="Show ${esc(a.name)}, ${esc(a.role.toLowerCase())}">
           <span aria-hidden="true">🐾</span> ${esc(a.name)}
@@ -192,7 +217,8 @@
       }
       root.dataset.state = state;
 
-      const restState = () => (open ? "helping" : "idle");
+      let touring = false;
+      const restState = () => (open || touring ? "helping" : "idle");
 
       /* ---------------- Sleep after inactivity ---------------- */
       function wake() {
@@ -335,14 +361,24 @@
         nudge.hidden = true;
       }
 
-      function showNudge() {
-        const plain = document.documentElement.dataset.view === "plain";
-        if (open || plain || root.classList.contains("is-hidden")) return;
-        try { sessionStorage.setItem("adam:greeted", "1"); } catch (_) { /* ignore */ }
+      const isAway = () =>
+        root.classList.contains("is-hidden") || document.documentElement.dataset.view === "plain";
+
+      /** Show a short speech bubble above Adam. Returns false if he can't talk right now. */
+      function say(text, { ms = 6000, announceIt = true, force = false } = {}) {
+        if (isAway() || touring || (open && !force)) return false;
+        clearTimeout(nudgeTimer);
         nudge.hidden = false;
-        nudgeMsg.textContent = T.nudge; // set after un-hiding so screen readers announce it once
-        happy(1400); // a little wave hello
-        nudgeTimer = setTimeout(hideNudge, a.nudgeDurationMs || 10000);
+        nudgeMsg.textContent = text;
+        if (announceIt) announce(text);
+        nudgeTimer = setTimeout(hideNudge, ms);
+        return true;
+      }
+
+      function showNudge() {
+        if (open || isAway()) return;
+        try { sessionStorage.setItem("adam:greeted", "1"); } catch (_) { /* ignore */ }
+        if (say(T.nudge, { ms: a.nudgeDurationMs || 10000 })) happy(1400); // a little wave hello
       }
 
       let greetedThisVisit = false;
@@ -360,6 +396,10 @@
       });
 
       root.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && touring) {
+          endTour();
+          return;
+        }
         if (e.key === "Escape" && !nudge.hidden) {
           hideNudge();
           return;
@@ -369,6 +409,194 @@
           closePanel();
         }
       });
+
+      const fill = (t) => String(t).replace("{certs}", certs.length).replace("{projects}", projects.length);
+
+      /* ---------------- Party (easter egg) ---------------- */
+      function party(msg = T.party) {
+        if (root.classList.contains("is-hidden")) setHidden(false);
+        hideNudge();
+        happy(2600);
+        root.classList.add("is-party");
+        setTimeout(() => root.classList.remove("is-party"), 2600);
+        const r = cat.getBoundingClientRect();
+        confetti(r.left + r.width / 2, r.top + 10, 44);
+        if (!say(msg, { ms: 5000 })) announce(msg);
+      }
+
+      /* ---------------- Petting: stroke the mouse back and forth ---------------- */
+      let petDir = 0;
+      let lastPetX = null;
+      let petFlips = [];
+      let purrTimer = 0;
+      let pettedOnce = false;
+
+      function purr() {
+        lockUntil = performance.now() + 1800;
+        cat.style.setProperty("--chase-x", "0px");
+        setState("purring");
+        clearTimeout(purrTimer);
+        purrTimer = setTimeout(() => {
+          if (state === "purring") setState(restState());
+        }, 1800);
+        if (!pettedOnce) {
+          pettedOnce = true;
+          say(T.petted, { ms: 3500, announceIt: false });
+        }
+      }
+
+      cat.addEventListener("pointermove", (e) => {
+        if (e.pointerType !== "mouse" || open) return;
+        if (lastPetX !== null) {
+          const d = Math.sign(e.clientX - lastPetX);
+          if (d && d !== petDir) {
+            if (petDir) petFlips.push(performance.now());
+            petDir = d;
+          }
+        }
+        lastPetX = e.clientX;
+        const now = performance.now();
+        petFlips = petFlips.filter((t) => now - t < 1000);
+        if (petFlips.length >= 3) purr();
+      });
+      cat.addEventListener("pointerleave", () => {
+        lastPetX = null;
+        petDir = 0;
+      });
+
+      /* ---------------- Yarn ball ---------------- */
+      const yarn = root.querySelector("[data-adam-yarn]");
+      let chasing = false;
+      let yarnAnnounced = false;
+
+      yarn.addEventListener("click", () => {
+        if (chasing) return;
+        chasing = true;
+        wake();
+        hideNudge();
+        const moving = motionOK();
+        const max = Math.max(160, Math.min(window.innerWidth - 220, 380));
+        const d = Math.round(140 + Math.random() * (max - 140));
+        root.classList.add("is-chasing");
+        root.style.setProperty("--yarn-x", `-${d}px`);
+        root.style.setProperty("--yarn-rot", `-${d * 2}deg`);
+        lockUntil = performance.now() + 4200;
+        setState("playful");
+        setTimeout(() => root.style.setProperty("--adam-x", `-${Math.max(0, d - 34)}px`), moving ? 250 : 0);
+        setTimeout(() => happy(900), moving ? 1500 : 100);
+        setTimeout(() => {
+          root.style.setProperty("--yarn-x", "0px");
+          root.style.setProperty("--yarn-rot", "0deg");
+          root.style.setProperty("--adam-x", "0px");
+        }, moving ? 2600 : 900);
+        setTimeout(() => {
+          root.classList.remove("is-chasing");
+          chasing = false;
+          setState(restState());
+        }, moving ? 3900 : 1000);
+        if (!yarnAnnounced) {
+          yarnAnnounced = true;
+          announce(T.yarn);
+        }
+      });
+
+      /* ---------------- Guided tour ---------------- */
+      const steps = (a.tour || []).filter((st) => document.getElementById(st.target));
+      const tourEl = root.querySelector("[data-adam-tour]");
+      const tourText = root.querySelector("[data-tour-text]");
+      const tourCount = root.querySelector("[data-tour-count]");
+      const tourBack = root.querySelector("[data-tour-back]");
+      const tourNext = root.querySelector("[data-tour-next]");
+      let step = 0;
+
+      const clearTourFocus = () => document.querySelectorAll(".tour-focus").forEach((el) => el.classList.remove("tour-focus"));
+
+      function showStep(i) {
+        step = i;
+        const st = steps[i];
+        const target = document.getElementById(st.target);
+        clearTourFocus();
+        target.classList.add("tour-focus");
+        target.scrollIntoView({ behavior: motionOK() ? "smooth" : "auto", block: "start" });
+        tourCount.textContent = `${i + 1} of ${steps.length}`;
+        tourText.textContent = fill(st.text);
+        tourBack.disabled = i === 0;
+        tourNext.textContent = i === steps.length - 1 ? "Finish" : "Next";
+        happy(700);
+      }
+
+      function startTour() {
+        if (!steps.length) return;
+        if (root.classList.contains("is-hidden")) setHidden(false);
+        hideNudge();
+        if (open) closePanel({ focusCat: false });
+        touring = true;
+        tourEl.hidden = false;
+        root.classList.add("is-touring");
+        showStep(0);
+        requestAnimationFrame(() => tourNext.focus({ preventScroll: true }));
+      }
+
+      function endTour(finished = false) {
+        if (!touring) return;
+        touring = false;
+        tourEl.hidden = true;
+        root.classList.remove("is-touring");
+        clearTourFocus();
+        setState(restState());
+        cat.focus({ preventScroll: true });
+        if (finished) party(T.tourDone);
+        else announce("Tour ended");
+      }
+
+      tourBack.addEventListener("click", () => step > 0 && showStep(step - 1));
+      tourNext.addEventListener("click", () => (step < steps.length - 1 ? showStep(step + 1) : endTour(true)));
+      root.querySelector("[data-tour-end]").addEventListener("click", () => endTour());
+
+      /* ---------------- Section reactions (once each per visit) ---------------- */
+      const reactions = a.reactions || {};
+      let reacted = [];
+      try { reacted = JSON.parse(sessionStorage.getItem("adam:reacted") || "[]"); } catch (_) { /* ignore */ }
+      let lastReaction = -Infinity; // the 9 s gap only applies between reactions
+      const dwell = new Map();
+
+      if ("IntersectionObserver" in window) {
+        const rio = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((en) => {
+              const id = en.target.id;
+              const enough = en.intersectionRatio >= 0.3 || en.intersectionRect.height >= window.innerHeight * 0.5;
+              clearTimeout(dwell.get(id));
+              if (!enough || reacted.includes(id)) return;
+              dwell.set(id, setTimeout(() => {
+                const busy = touring || open || !nudge.hidden || performance.now() - lastReaction < 9000;
+                if (busy || reacted.includes(id)) return;
+                if (say(fill(reactions[id]), { ms: 4500, announceIt: false })) {
+                  reacted.push(id);
+                  lastReaction = performance.now();
+                  try { sessionStorage.setItem("adam:reacted", JSON.stringify(reacted)); } catch (_) { /* ignore */ }
+                }
+              }, 1200));
+            });
+          },
+          { threshold: [0, 0.3, 0.6] }
+        );
+        Object.keys(reactions).forEach((id) => {
+          const el = document.getElementById(id);
+          if (el) rio.observe(el);
+        });
+      }
+
+      // Public API for other modules (explorer badge, shortcuts, easter egg).
+      Site.adam = {
+        say,
+        party,
+        startTour,
+        open: () => {
+          if (root.classList.contains("is-hidden")) setHidden(false);
+          if (!open) openPanel();
+        },
+      };
 
       /* ---------------- Chat rendering ---------------- */
       function renderChips() {
@@ -421,6 +649,7 @@
 
       root.addEventListener("click", (e) => {
         const chip = e.target.closest("[data-adam-intent]");
+        if (chip && chip.dataset.adamIntent === "tour") return startTour();
         if (chip) return ask(chip.textContent, chip.dataset.adamIntent);
         const follow = e.target.closest("[data-adam-ask]");
         if (follow) return ask(follow.dataset.adamAsk);
@@ -560,6 +789,14 @@
               ? { html: `<p><strong>${esc(ff.headline)}</strong></p><p class="mt-1">${esc(ff.text)}</p><p class="mt-1">${esc(ff.how)}</p>` }
               : { html: `<p>${esc(T.fallback)}</p>` };
           }
+
+          case "tour":
+            setTimeout(startTour, motionOK() ? 900 : 50);
+            return { html: `<p>${esc(T.tourOffer)}</p>` };
+
+          case "meow":
+            setTimeout(() => party(), motionOK() ? 700 : 50);
+            return { html: `<p>${esc(T.party)}</p>` };
 
           case "who":
             return { html: `<p>${esc(T.who)}</p>` };

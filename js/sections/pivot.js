@@ -63,7 +63,7 @@
           </div>
 
           <p class="mt-16 flex justify-center">
-            <span class="tag -rotate-1 bg-highlight px-5 py-2.5 text-base text-onyx sm:text-lg">${esc(p.banner)}</span>
+            <span class="tag -rotate-1 bg-pink px-5 py-2.5 text-base text-onyx sm:text-lg">${esc(p.banner)}</span>
           </p>
         </div>`;
     },

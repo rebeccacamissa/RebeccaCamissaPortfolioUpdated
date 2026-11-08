@@ -4,7 +4,7 @@
   "use strict";
   const { esc, icon, eyebrow, highlight, announce, onceVisible, sections } = Site;
 
-  const CHIP = ["bg-highlight text-onyx", "bg-accent text-on-accent", "bg-onyx text-highlight", "bg-coral text-onyx"];
+  const CHIP = ["bg-pink text-onyx", "bg-accent text-on-accent", "bg-ink text-paper", "bg-pink-soft text-onyx"];
 
   const safeHttps = (url) => (/^https:\/\//i.test(url || "") ? url : "");
   // Local relative paths (assets/…) or https only — no javascript:/data: URLs.

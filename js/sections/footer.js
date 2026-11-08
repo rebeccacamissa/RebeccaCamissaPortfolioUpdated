@@ -31,7 +31,12 @@
             ${cvLink({ label: "CV", cls: "btn btn-sm btn-secondary" })}
             <a href="#top" class="btn btn-sm btn-ghost">Back to top <span aria-hidden="true">↑</span></a>
           </div>
-          <p class="w-full text-xs text-ink-soft">© ${year} ${esc(site.name)}</p>
+          <div class="flex w-full flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+            <p class="explorer-status" data-explorer-status></p>
+            <button type="button" class="footer-link" data-action="open-a11y">Accessibility settings</button>
+            <button type="button" class="footer-link" data-action="open-shortcuts">Keyboard shortcuts <kbd>?</kbd></button>
+          </div>
+          <p class="w-full text-xs text-ink-soft">© ${year} ${esc(site.name)} · <span class="egg-hint">${esc((site.fun && site.fun.eggHint) || "")}</span></p>
         </div>`;
     },
   };

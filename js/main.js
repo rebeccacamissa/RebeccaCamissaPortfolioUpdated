@@ -27,6 +27,8 @@
     "site-footer": sections.footer,
     marquee: sections.marquee,
     adam: sections.adam,
+    a11y: sections.a11y,
+    fun: sections.fun,
   };
 
   Object.entries(MOUNTS).forEach(([id, section]) => {
@@ -183,6 +185,23 @@
 
   syncThemeButton();
   syncViewButton();
+
+  /* ---------------------- Offline (service worker) ---------------------- */
+  // Only over http(s) — service workers don't run from file://.
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker
+        .register("sw.js")
+        .then(() => navigator.serviceWorker.ready)
+        .then((reg) => {
+          // Hand the worker everything this page already loaded, so the
+          // first visit is enough to work offline afterwards.
+          const urls = [location.href.split("#")[0], ...performance.getEntriesByType("resource").map((r) => r.name)];
+          if (reg.active) reg.active.postMessage({ type: "cache-urls", urls });
+        })
+        .catch(() => { /* offline support is a bonus — ignore failures */ });
+    });
+  }
 
   // Sections are rendered by JS, so the browser's initial jump to #hash
   // happened before they had height. Re-apply it now that they exist.

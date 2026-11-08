@@ -34,7 +34,7 @@
         email && `
           <li data-reveal>
             <a href="mailto:${esc(email)}" class="contact-channel">
-              <span class="contact-channel-icon bg-highlight text-onyx" aria-hidden="true">
+              <span class="contact-channel-icon bg-pink text-onyx" aria-hidden="true">
                 ${Site.svg('<rect x="3" y="5" width="18" height="14" rx="1"/><path d="m3 7 9 6 9-6"/>', "size-5")}
               </span>
               <span class="min-w-0">

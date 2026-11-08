@@ -16,7 +16,8 @@
   --color-accent: #2563eb;
   --color-on-accent: #ffffff;
   --color-highlight: #fde047;
-  --color-coral: #ff6b6b;
+  --color-pink: #f472b6;
+  --color-pink-soft: #fce7f3;
   /* Fixed dark text for use on yellow, regardless of theme. */
   --color-onyx: #18181b;
 
@@ -45,7 +46,7 @@
   --color-ink-soft: #d6d3cb;
   --color-accent: #7cb0ff;
   --color-on-accent: #18181b;
-  --color-coral: #ff8a8a;
+  --color-pink: #f9a8d4;
   color-scheme: dark;
 }
 
@@ -74,7 +75,7 @@
   }
 
   ::selection {
-    background: var(--color-highlight);
+    background: var(--color-pink-soft);
     color: var(--color-onyx);
   }
 }
@@ -91,7 +92,7 @@
     @apply px-3 py-2 text-sm shadow-brutal-sm hover:shadow-brutal;
   }
   .btn-primary { @apply bg-accent text-on-accent; }
-  .btn-secondary { @apply bg-paper text-ink hover:bg-highlight hover:text-onyx; }
+  .btn-secondary { @apply bg-paper text-ink hover:bg-pink-soft hover:text-onyx; }
   .btn-ghost {
     @apply border-dashed bg-transparent text-ink shadow-none
       hover:border-solid hover:bg-paper hover:shadow-brutal-sm;
@@ -107,7 +108,7 @@
   /* Highlighter stroke that follows the text across line wraps. */
   .marker {
     background-image: linear-gradient(
-      transparent 58%, var(--color-highlight) 58%, var(--color-highlight) 90%, transparent 90%
+      transparent 58%, var(--color-pink-soft) 58%, var(--color-pink-soft) 90%, transparent 90%
     );
     color: var(--color-onyx);
     box-decoration-break: clone;
@@ -115,9 +116,18 @@
     padding-inline: 0.08em;
   }
 
+  /* Section headings get a slim pink underline rather than a full highlight. */
+  main > section:not(#hero) .marker {
+    color: inherit;
+    background-image: linear-gradient(transparent 84%, var(--color-pink) 84%, var(--color-pink) 96%, transparent 96%);
+  }
+  [data-theme="dark"] main > section:not(#hero) .marker {
+    background-image: linear-gradient(transparent 84%, var(--color-pink) 84%, var(--color-pink) 96%, transparent 96%);
+  }
+
   /* On dark paper the stroke covers the full line so dark glyphs stay readable. */
   [data-theme="dark"] .marker {
-    background-image: linear-gradient(var(--color-highlight), var(--color-highlight));
+    background-image: linear-gradient(var(--color-pink-soft), var(--color-pink-soft));
   }
 
   .paper-grid {
@@ -141,7 +151,7 @@
     box-shadow: 3px 3px 0 0 var(--color-ink);
   }
   .eyebrow-num {
-    @apply border-r-2 border-ink bg-highlight px-2.5 py-1.5 text-onyx;
+    @apply border-r-2 border-ink bg-ink px-2.5 py-1.5 text-paper;
   }
   .eyebrow-label {
     @apply min-w-0 flex-1 bg-paper px-3 py-1.5;
@@ -180,7 +190,7 @@
   }
   .metric-wrap[data-active] .metric {
     translate: -2px -2px;
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink-soft);
     color: var(--color-onyx);
     box-shadow: 7px 7px 0 0 var(--color-ink);
   }
@@ -213,8 +223,8 @@
     transition: opacity 0.25s, background-color 0.25s, box-shadow 0.25s, color 0.25s;
   }
   .proof.is-proof {
-    background-color: color-mix(in srgb, var(--color-highlight) 32%, transparent);
-    box-shadow: inset 4px 0 0 0 var(--color-highlight);
+    background-color: color-mix(in srgb, var(--color-pink) 20%, transparent);
+    box-shadow: inset 4px 0 0 0 var(--color-pink);
     color: var(--color-ink);
   }
   .proof.is-dimmed {
@@ -224,7 +234,7 @@
   .quote-card {
     position: relative;
     border: 2px solid var(--color-ink);
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink-soft);
     background-image:
       linear-gradient(rgb(24 24 27 / 0.06) 1px, transparent 1px),
       linear-gradient(90deg, rgb(24 24 27 / 0.06) 1px, transparent 1px);
@@ -255,7 +265,7 @@
     color: var(--color-onyx);
   }
   .quote-attr {
-    @apply inline-block -rotate-2 border-2 border-onyx bg-onyx px-3 py-1.5 font-display text-sm font-bold tracking-[0.2em] text-highlight;
+    @apply inline-block -rotate-2 border-2 border-onyx bg-onyx px-3 py-1.5 font-display text-sm font-bold tracking-[0.2em] text-pink;
   }
 
   /* ---------- 03 · The Pivot ---------- */
@@ -295,7 +305,7 @@
   }
   .tl-link[aria-current="step"] .tl-node {
     scale: 1.12;
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink);
     color: var(--color-onyx);
     box-shadow: 3px 3px 0 0 var(--color-ink);
   }
@@ -326,7 +336,7 @@
   }
   .tl-item.is-active .tl-era,
   .tl-item.is-active .tl-dot {
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink);
     color: var(--color-onyx);
   }
   .tl-item.is-active .tl-dot {
@@ -392,7 +402,7 @@
     box-shadow: 2px 2px 0 0 var(--color-ink);
   }
   .skill-chip.is-match {
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink);
     color: var(--color-onyx);
   }
   .skill-chip[aria-pressed="true"] {
@@ -400,7 +410,7 @@
   }
 
   .filter-status {
-    @apply mt-5 inline-flex flex-wrap items-center gap-x-3 gap-y-1 border-2 border-ink bg-highlight px-4 py-2 text-sm text-onyx;
+    @apply mt-5 inline-flex flex-wrap items-center gap-x-3 gap-y-1 border-2 border-ink bg-pink-soft px-4 py-2 text-sm text-onyx;
   }
   .filter-status[hidden] {
     display: none;
@@ -435,8 +445,8 @@
     transition: background-color 0.25s, box-shadow 0.25s;
   }
   .bar-row.is-match {
-    background-color: color-mix(in srgb, var(--color-highlight) 30%, transparent);
-    box-shadow: inset 4px 0 0 0 var(--color-highlight);
+    background-color: color-mix(in srgb, var(--color-pink) 20%, transparent);
+    box-shadow: inset 4px 0 0 0 var(--color-pink);
   }
   .bar-track {
     @apply mt-2 block h-3.5 border-2 border-ink bg-paper-deep;
@@ -458,8 +468,8 @@
   }
 
   .tk-summary {
-    @apply self-start border-2 border-ink bg-highlight p-6 text-onyx sm:p-8;
-    box-shadow: 7px 7px 0 0 var(--color-ink);
+    @apply self-start border-2 border-ink bg-paper p-6 text-ink sm:p-8;
+    box-shadow: 7px 7px 0 0 var(--color-pink);
   }
 
   /* ---------- 07 · Selected Work ---------- */
@@ -484,7 +494,7 @@
   }
   .project-link:hover {
     translate: -2px -2px;
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink-soft);
     color: var(--color-onyx);
     box-shadow: 5px 5px 0 0 var(--color-ink);
   }
@@ -607,7 +617,7 @@
     @apply py-2.5 text-center font-display text-sm font-bold tracking-wide;
   }
   .hero-photo-sticker {
-    @apply absolute -right-5 -top-5 grid size-16 place-items-center border-2 border-ink bg-onyx font-display text-xl font-bold text-highlight;
+    @apply absolute -right-5 -top-5 grid size-16 place-items-center border-2 border-ink bg-onyx font-display text-xl font-bold text-pink;
     rotate: 9deg;
     box-shadow: 3px 3px 0 0 var(--color-ink);
   }
@@ -615,7 +625,7 @@
     .hero-photo:hover {
       rotate: 0deg;
       translate: 0 -6px;
-      box-shadow: 11px 13px 0 0 var(--color-coral);
+      box-shadow: 11px 13px 0 0 var(--color-pink);
     }
   }
   @media (min-width: 64rem) {
@@ -635,19 +645,19 @@
   }
 
   /* ---------- Colour energy ---------- */
-  /* Section number chips cycle yellow → coral → blue down the page. */
+  /* Section number chips cycle yellow → pink → blue down the page. */
   main > section:nth-of-type(3n) .eyebrow-num {
-    background-color: var(--color-coral);
+    background-color: var(--color-pink);
     color: var(--color-onyx);
   }
   main > section:nth-of-type(3n + 1) .eyebrow-num {
     background-color: var(--color-accent);
     color: var(--color-on-accent);
   }
-  /* Hover shadows alternate pop blue / electric coral. */
+  /* Hover shadows alternate pop blue / pink. */
   li:nth-child(even) > .lift-card,
   .carousel-slide:nth-child(even) .lift-card {
-    --pop: var(--color-coral);
+    --pop: var(--color-pink);
   }
   @media (hover: hover) {
     .lift-card:hover {
@@ -691,10 +701,10 @@
     @apply font-display text-xl;
   }
   .marquee-star-0 { color: var(--color-highlight); }
-  .marquee-star-1 { color: var(--color-coral); }
+  .marquee-star-1 { color: var(--color-pink); }
   .marquee-star-2 { color: #7cb0ff; }
   [data-theme="dark"] .marquee {
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink);
     color: var(--color-onyx);
   }
   [data-theme="dark"] .marquee-star { color: var(--color-onyx); }
@@ -773,7 +783,7 @@
     display: none;
   }
   .form-status[data-kind="success"] {
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink-soft);
     color: var(--color-onyx);
   }
   .form-status[data-kind="error"] {
@@ -784,7 +794,7 @@
   /* ---------- Footer · fun fact ---------- */
   .fun-fact {
     @apply relative flex items-start gap-4 border-2 border-ink p-5 text-onyx sm:gap-6 sm:p-7;
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink-soft);
     background-image:
       linear-gradient(rgb(24 24 27 / 0.07) 1px, transparent 1px),
       linear-gradient(90deg, rgb(24 24 27 / 0.07) 1px, transparent 1px);
@@ -796,7 +806,7 @@
   @media (hover: hover) {
     .fun-fact:hover {
       rotate: 0deg;
-      box-shadow: 10px 10px 0 0 var(--color-coral);
+      box-shadow: 10px 10px 0 0 var(--color-pink);
     }
   }
   .fun-fact-badge {
@@ -928,7 +938,7 @@
   }
   .adam-head {
     @apply flex items-center justify-between gap-3 border-b-2 border-ink px-4 py-2.5 text-onyx;
-    background-color: var(--color-coral);
+    background-color: var(--color-pink);
   }
   .adam-icon-btn {
     @apply grid size-8 cursor-pointer place-items-center border-2 border-onyx bg-transparent text-onyx;
@@ -972,7 +982,7 @@
   }
   .adam-action:hover {
     translate: -1px -1px;
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink-soft);
     color: var(--color-onyx);
     box-shadow: 3px 3px 0 0 var(--color-ink);
   }
@@ -992,7 +1002,7 @@
   }
   .adam-chip:hover {
     translate: 0 -2px;
-    background-color: var(--color-coral);
+    background-color: var(--color-pink);
     color: var(--color-onyx);
     box-shadow: 3px 4px 0 0 var(--color-ink);
   }
@@ -1023,7 +1033,7 @@
     align-items: flex-start;
     max-width: min(270px, calc(100vw - 32px));
     border: 2px solid var(--color-ink);
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink-soft);
     color: var(--color-onyx);
     box-shadow: 5px 5px 0 0 var(--color-ink);
     transform-origin: 85% 100%;
@@ -1040,7 +1050,7 @@
     rotate: 45deg;
     border-right: 2px solid var(--color-ink);
     border-bottom: 2px solid var(--color-ink);
-    background-color: var(--color-highlight);
+    background-color: var(--color-pink-soft);
   }
   .adam-nudge-text {
     @apply cursor-pointer px-3.5 py-3 text-left font-display text-sm font-bold leading-snug text-onyx;
@@ -1056,7 +1066,7 @@
   }
 
   .adam-restore {
-    @apply fixed bottom-3 right-3 z-45 inline-flex cursor-pointer items-center gap-1.5 border-2 border-ink bg-highlight px-3 py-2 font-display text-sm font-bold text-onyx;
+    @apply fixed bottom-3 right-3 z-45 inline-flex cursor-pointer items-center gap-1.5 border-2 border-ink bg-pink-soft px-3 py-2 font-display text-sm font-bold text-onyx;
     box-shadow: 3px 3px 0 0 var(--color-ink);
   }
   .adam-restore[hidden] { display: none; }
@@ -1140,12 +1150,21 @@
   clip-path: inset(-20% -5% -20% 0);
 }
 
-/* Reduced motion: keep hover feedback, drop ambient animation. */
+/* Reduced motion (device setting or the site's switch): keep hover feedback, drop ambient animation. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation: none !important;
     transition-duration: 0.01ms !important;
   }
+}
+[data-motion="reduce"] *,
+[data-motion="reduce"] *::before,
+[data-motion="reduce"] *::after {
+  animation: none !important;
+  transition-duration: 0.01ms !important;
+}
+html[data-motion="reduce"] {
+  scroll-behavior: auto !important;
 }
 
 /* ---------- Plain-text view: lightweight, readable, no decoration ---------- */
@@ -1275,4 +1294,463 @@
 [data-view="plain"] .field-input {
   background: #fff;
   color: #111;
+}
+
+
+/* ======================================================================
+   Accessibility settings (data attributes on <html>, see js/sections/a11y.js)
+   ====================================================================== */
+html[data-text-size="large"] { font-size: 112.5%; }
+html[data-text-size="larger"] { font-size: 125%; }
+
+html[data-font="readable"] {
+  --font-sans: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+}
+[data-font="readable"] body {
+  letter-spacing: 0.012em;
+  word-spacing: 0.06em;
+  line-height: 1.65;
+}
+
+/* High contrast: pure black/white, no textures, no dimming, underlined links. */
+[data-contrast="high"] {
+  --color-paper: #ffffff;
+  --color-paper-deep: #ffffff;
+  --color-ink: #000000;
+  --color-ink-soft: #000000;
+  --color-accent: #1d4ed8;
+  --color-on-accent: #ffffff;
+  --color-pink-soft: #ffffff;
+}
+[data-theme="dark"][data-contrast="high"] {
+  --color-paper: #000000;
+  --color-paper-deep: #000000;
+  --color-ink: #ffffff;
+  --color-ink-soft: #ffffff;
+  --color-accent: #9dc1ff;
+  --color-on-accent: #000000;
+}
+[data-contrast="high"] body,
+[data-contrast="high"] .paper-grid,
+[data-contrast="high"] .band-grid,
+[data-contrast="high"] .quote-card,
+[data-contrast="high"] .fun-fact {
+  background-image: none !important;
+}
+[data-contrast="high"] main a:not(.btn):not(.project-link):not(.contact-channel):not(.adam-action),
+[data-contrast="high"] footer a:not(.btn) {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+[data-contrast="high"] .doodle,
+[data-contrast="high"] .sticker-hint {
+  display: none !important;
+}
+[data-contrast="high"] .is-dimmed {
+  opacity: 1 !important;
+}
+[data-contrast="high"] :focus-visible {
+  outline-width: 4px;
+}
+
+/* ======================================================================
+   New components
+   ====================================================================== */
+@layer components {
+  /* ---------- Accessibility dialogs ---------- */
+  .a11y-dialog {
+    width: min(440px, calc(100vw - 24px));
+    max-height: calc(100vh - 32px);
+    margin: auto;
+    padding: 0;
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: 8px 8px 0 0 var(--color-ink);
+  }
+  .a11y-dialog[open] { animation: adam-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .a11y-dialog::backdrop { background: rgb(24 24 27 / 0.5); }
+  .a11y-head {
+    @apply flex items-center justify-between gap-3 border-b-2 border-ink px-5 py-3;
+    background-color: var(--color-pink-soft);
+    color: var(--color-onyx);
+  }
+  .a11y-body { @apply grid gap-5 px-5 py-5; }
+  .a11y-body fieldset { margin: 0; padding: 0; border: 0; min-width: 0; }
+
+  .a11y-switch { @apply flex cursor-pointer items-center justify-between gap-4; }
+  .a11y-switch input,
+  .a11y-size input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+  .a11y-switch-track {
+    position: relative;
+    flex-shrink: 0;
+    width: 54px;
+    height: 30px;
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-paper-deep);
+    transition: background-color 0.2s;
+  }
+  .a11y-switch-track span {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background-color: var(--color-ink);
+    transition: translate 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s;
+  }
+  .a11y-switch input:checked + .a11y-switch-track { background-color: var(--color-pink); }
+  .a11y-switch input:checked + .a11y-switch-track span { translate: 24px 0; background-color: var(--color-onyx); }
+  .a11y-switch input:focus-visible + .a11y-switch-track { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+  .a11y-switch input:disabled + .a11y-switch-track { opacity: 0.6; }
+
+  .a11y-sizes { @apply mt-2 inline-flex border-2 border-ink; }
+  .a11y-size { cursor: pointer; }
+  .a11y-size > span[aria-hidden] {
+    @apply grid h-11 min-w-14 place-items-center px-3 font-display font-bold;
+    transition: background-color 0.15s, color 0.15s;
+  }
+  .a11y-size + .a11y-size > span[aria-hidden] { border-left: 2px solid var(--color-ink); }
+  .a11y-size:hover > span[aria-hidden] { background-color: var(--color-paper-deep); }
+  .a11y-size input:checked + span { background-color: var(--color-ink); color: var(--color-paper); }
+  .a11y-size input:focus-visible + span { outline: 3px solid var(--color-accent); outline-offset: -6px; }
+  .a11y-size-default { font-size: 0.9rem; }
+  .a11y-size-large { font-size: 1.05rem; }
+  .a11y-size-larger { font-size: 1.3rem; }
+
+  .keys-list { @apply grid gap-2 sm:grid-cols-2; }
+  .keys-list > div { @apply flex items-baseline gap-3; }
+  .keys-list dd { @apply text-sm; }
+  .keys-list kbd,
+  .footer-link kbd {
+    @apply inline-grid min-w-8 place-items-center border-2 border-ink bg-paper-deep px-1.5 py-0.5 font-display text-sm font-bold text-ink;
+    box-shadow: 2px 2px 0 0 var(--color-ink);
+  }
+  .footer-link kbd { @apply min-w-6 px-1 py-0 text-xs; }
+
+  /* ---------- Read aloud ---------- */
+  .listen-btn {
+    @apply ml-3 inline-flex cursor-pointer items-center gap-1.5 border-2 border-ink bg-paper px-2.5 py-1 align-middle font-display text-xs font-bold uppercase tracking-wider text-ink;
+    box-shadow: 2px 2px 0 0 var(--color-ink);
+    transition: translate 0.15s, box-shadow 0.15s, background-color 0.15s;
+  }
+  .listen-btn:hover {
+    translate: -1px -1px;
+    background-color: var(--color-pink-soft);
+    color: var(--color-onyx);
+    box-shadow: 3px 3px 0 0 var(--color-ink);
+  }
+  .listen-btn[aria-pressed="true"] { background-color: var(--color-pink); color: var(--color-onyx); }
+  .is-reading {
+    outline: 3px solid var(--color-pink);
+    outline-offset: 4px;
+    background-color: color-mix(in srgb, var(--color-pink) 14%, transparent);
+  }
+
+  /* ---------- Scroll progress + back to top ---------- */
+  .scroll-progress {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 60;
+    height: 4px;
+    pointer-events: none;
+  }
+  .scroll-progress span {
+    display: block;
+    height: 100%;
+    background-color: var(--color-pink);
+    transform-origin: left;
+    scale: var(--p, 0) 1;
+  }
+  .to-top {
+    position: fixed;
+    left: 16px;
+    bottom: 16px;
+    z-index: 44;
+    display: grid;
+    width: 48px;
+    height: 48px;
+    place-items: center;
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: 4px 4px 0 0 var(--color-ink);
+    animation: adam-pop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: translate 0.15s, box-shadow 0.15s, background-color 0.15s;
+  }
+  .to-top[hidden] { display: none; }
+  .to-top:hover {
+    translate: -2px -2px;
+    background-color: var(--color-pink);
+    color: var(--color-onyx);
+    box-shadow: 6px 6px 0 0 var(--color-ink);
+  }
+
+  /* ---------- Footer extras ---------- */
+  .explorer-status { @apply font-display font-bold; }
+  .explorer-status.is-earned {
+    @apply border-2 border-ink px-2 py-0.5 text-onyx;
+    background-color: var(--color-pink-soft);
+  }
+  .footer-link {
+    @apply inline-flex cursor-pointer items-center gap-1.5 font-display font-semibold text-ink underline decoration-2 underline-offset-4;
+  }
+  .footer-link:hover { text-decoration-color: var(--color-pink); }
+
+  /* ---------- Confetti ---------- */
+  .confetti {
+    position: fixed;
+    inset: 0;
+    z-index: 70;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .confetti i {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: 9px;
+    height: 13px;
+    border: 1.5px solid var(--color-onyx);
+    background-color: var(--c);
+    animation: confetti 1.6s cubic-bezier(0.2, 0.7, 0.4, 1) var(--d, 0ms) forwards;
+  }
+  .confetti i.is-round { width: 11px; height: 11px; border-radius: 9999px; }
+
+  /* ---------- Doodles ---------- */
+  main > section[id] { position: relative; }
+  .doodle {
+    position: absolute;
+    top: var(--top);
+    z-index: 1;
+    display: none;
+    width: 56px;
+    height: 56px;
+    color: var(--color-ink);
+    cursor: pointer;
+    rotate: var(--rot, 0deg);
+    transition: rotate 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .doodle-left { left: calc((100% - 72rem) / 4 - 28px); }
+  .doodle-right { right: calc((100% - 72rem) / 4 - 28px); }
+  .doodle-inline {
+    position: relative;
+    top: auto;
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin-left: 0.6rem;
+    vertical-align: middle;
+  }
+  @media (min-width: 80rem) {
+    .doodle-left, .doodle-right { display: block; }
+    .doodle-inline { display: none; }
+  }
+  .doodle svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .doodle svg * {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.4s ease-out, fill 0.3s, stroke 0.3s;
+  }
+  .doodle.is-drawn svg * { stroke-dashoffset: 0; }
+  .doodle:hover { rotate: calc(var(--rot, 0deg) + 14deg); scale: 1.14; }
+  .doodle.is-booped svg.is-closed * { fill: var(--color-pink); }
+  .doodle.is-booped svg:not(.is-closed) * { stroke: var(--color-pink); }
+  .doodle.is-spinning { animation: doodle-boop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  /* ---------- Draggable hero stickers ---------- */
+  .sticker {
+    translate: var(--dx, 0px) var(--dy, 0px);
+    transition: translate 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @media (pointer: fine) {
+    .sticker { cursor: grab; touch-action: none; user-select: none; }
+  }
+  .sticker.is-dragging { z-index: 30; cursor: grabbing; transition: none; }
+  .sticker.is-dragging .tag {
+    scale: 1.08;
+    box-shadow: 9px 11px 0 0 var(--color-ink);
+    animation-play-state: paused;
+  }
+  .sticker-hint { display: none; }
+  @media (pointer: fine) and (min-width: 64rem) {
+    .sticker-hint {
+      position: absolute;
+      left: 18px;
+      bottom: 12px;
+      display: block;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--color-ink-soft);
+      rotate: -3deg;
+    }
+  }
+
+  /* ---------- Adam: purring, party, yarn, tour ---------- */
+  .adam[data-state="purring"] .cat-eyes-open { opacity: 0; }
+  .adam[data-state="purring"] .cat-eyes-closed,
+  .adam[data-state="purring"] .cat-purr { opacity: 1; }
+  .adam[data-state="purring"] .cat-purr { animation: adam-purr 0.12s linear infinite alternate; }
+  .adam[data-state="purring"] .cat-head { transform: rotate(7deg) translateY(1px); }
+  .adam[data-state="purring"] .cat-ears { transform: scaleY(0.9); }
+  .adam[data-state="purring"] .cat-figure { animation: adam-sway 2.2s ease-in-out infinite alternate; }
+  .adam[data-state="purring"] .cat-tail { animation-duration: 3.6s; }
+
+  .adam.is-party .cat-figure { animation: adam-dance 0.42s ease-in-out 6 alternate; }
+
+  .adam-stage {
+    translate: var(--adam-x, 0px) 0;
+    transition: translate 1.2s cubic-bezier(0.3, 0.7, 0.3, 1);
+  }
+  .adam-yarn {
+    position: fixed;
+    right: 128px;
+    bottom: 10px;
+    z-index: 44;
+    width: 34px;
+    height: 34px;
+    cursor: pointer;
+    border-radius: 9999px;
+    translate: var(--yarn-x, 0px) 0;
+    transition: translate 1.1s cubic-bezier(0.2, 0.8, 0.3, 1);
+  }
+  .adam-yarn svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    rotate: var(--yarn-rot, 0deg);
+    filter: drop-shadow(2px 2px 0 var(--color-ink));
+    transition: rotate 1.1s cubic-bezier(0.2, 0.8, 0.3, 1), scale 0.2s;
+  }
+  .adam-yarn:hover svg { scale: 1.12; }
+  .adam-yarn:focus-visible { outline: 3px solid var(--color-accent); outline-offset: 3px; }
+  .adam.is-hidden .adam-yarn { display: none; }
+
+  .adam-tour {
+    position: fixed;
+    right: 16px;
+    bottom: 118px;
+    z-index: 46;
+    width: min(340px, calc(100vw - 32px));
+    border: 2px solid var(--color-ink);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    padding: 1rem 1.1rem;
+    box-shadow: 7px 7px 0 0 var(--color-pink);
+    animation: adam-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .adam-tour[hidden] { display: none; }
+  .adam-tour::after {
+    content: "";
+    position: absolute;
+    right: 44px;
+    bottom: -13px;
+    width: 22px;
+    height: 22px;
+    rotate: 45deg;
+    border-right: 2px solid var(--color-ink);
+    border-bottom: 2px solid var(--color-ink);
+    background-color: var(--color-paper);
+  }
+  .adam-tour-step { @apply flex items-center gap-2 font-display text-xs font-bold uppercase tracking-[0.14em] text-ink-soft; }
+  .adam-tour-text { @apply mt-2 font-display text-lg font-bold leading-snug; }
+  .adam-tour-nav { @apply mt-4 flex flex-wrap items-center gap-2; }
+  .adam-action-primary { background-color: var(--color-accent); color: var(--color-on-accent); }
+  .adam-action:disabled { cursor: not-allowed; opacity: 0.45; }
+  .adam-tour-end { @apply ml-auto cursor-pointer font-display text-sm font-semibold underline decoration-2 underline-offset-2; }
+  .tour-focus { outline: 4px dashed var(--color-pink); outline-offset: -12px; }
+
+  @media (max-width: 639px) {
+    .adam-yarn { right: 92px; bottom: 8px; width: 28px; height: 28px; }
+    .adam-tour { right: 8px; bottom: 90px; width: calc(100vw - 16px); }
+    .adam-tour::after { right: 30px; }
+  }
+}
+
+@keyframes confetti {
+  45% { transform: translate(calc(var(--tx) * 0.75), var(--ty)) rotate(calc(var(--r) * 0.5)); opacity: 1; }
+  100% { transform: translate(var(--tx), calc(var(--ty) + 340px)) rotate(var(--r)); opacity: 0; }
+}
+@keyframes doodle-boop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35) rotate(-24deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+@keyframes adam-dance {
+  from { transform: rotate(-11deg) translateY(0); }
+  to { transform: rotate(11deg) translateY(-12px); }
+}
+
+/* Plain view: none of the playful extras. */
+[data-view="plain"] .doodle,
+[data-view="plain"] .sticker-hint,
+[data-view="plain"] .scroll-progress {
+  display: none !important;
+}
+[data-view="plain"] .sticker { translate: none !important; cursor: auto; }
+
+/* ======================================================================
+   Print / save as PDF: one clean column, no chrome or animation.
+   ====================================================================== */
+@media print {
+  @page { margin: 14mm; }
+  html { font-size: 11pt; }
+  body { background: #fff !important; color: #000 !important; }
+  #site-header, #adam, #a11y, #fun, .marquee, .listen-btn, .doodle, .to-top, .scroll-progress,
+  .btn, .contact-form, [data-action], .carousel-progress, .sticker-hint, .tk-tablist, .cert-viewer,
+  [data-filter-status], .metric-tip, .decor, .gh-feed, .egg-hint, .explorer-status, .footer-link {
+    display: none !important;
+  }
+  *, *::before, *::after {
+    box-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+  .reveal-ready [data-reveal] {
+    opacity: 1 !important;
+    translate: none !important;
+    scale: 1 !important;
+    clip-path: none !important;
+  }
+  main > section { border-top: 1px solid #000 !important; }
+  .section-shell { padding-block: 8mm !important; }
+  .lift-card, .metric, .quote-card, .fun-fact, .contact-channel, .cert-card, .tk-summary {
+    break-inside: avoid;
+    border: 1px solid #000 !important;
+    background: #fff !important;
+    color: #000 !important;
+    rotate: none !important;
+  }
+  [data-tk-panel][hidden] { display: block !important; margin-top: 1.5rem; }
+  .bar-fill { scale: var(--pct) 1 !important; print-color-adjust: exact; -webkit-print-color-adjust: exact; }
+  .cert-list { max-height: none !important; overflow: visible !important; }
+  .carousel-track { display: block !important; overflow: visible !important; }
+  .carousel-slide { margin-bottom: 1rem; }
+  .hero-photo {
+    position: static !important;
+    width: 45mm !important;
+    margin: 0 0 6mm !important;
+    translate: none !important;
+    rotate: none !important;
+  }
+  .sticker { translate: none !important; }
+  main a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; word-break: break-all; }
 }

@@ -7,6 +7,40 @@
     <meta name="description" content="Rebecca Adams is a junior web developer in Cape Town, South Africa, bringing creative, solution-based web development from a strong customer service foundation." />
     <meta name="theme-color" content="#f9f6ee" />
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <meta name="author" content="Rebecca Adams" />
+
+    <!-- Link previews (LinkedIn, WhatsApp, X…). Once the site is live, change
+         og:image and og:url to full https:// addresses — most apps need that. -->
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Rebecca Adams — Portfolio" />
+    <meta property="og:title" content="Rebecca Adams — Junior Web Developer" />
+    <meta property="og:description" content="Creative, solution-based web development from a strong customer service foundation. Cape Town, South Africa — available for junior roles." />
+    <meta property="og:image" content="assets/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Rebecca Adams, Junior Web Developer, Cape Town" />
+    <meta property="og:locale" content="en_ZA" />
+    <meta property="profile:first_name" content="Rebecca" />
+    <meta property="profile:last_name" content="Adams" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rebecca Adams — Junior Web Developer" />
+    <meta name="twitter:description" content="Creative, solution-based web development from a strong customer service foundation." />
+    <meta name="twitter:image" content="assets/og-image.jpg" />
+
+    <!-- Structured data so search engines understand who this page is about. -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Rebecca Adams",
+        "jobTitle": "Junior Web Developer",
+        "description": "Emerging tech professional bringing creative, solution-based web development from a strong customer service foundation.",
+        "image": "assets/rebecca-adams.jpg",
+        "address": { "@type": "PostalAddress", "addressLocality": "Cape Town", "addressCountry": "ZA" },
+        "knowsAbout": ["HTML", "CSS", "JavaScript", "Responsive web design", "UX thinking", "Data analysis"],
+        "sameAs": ["https://github.com/rebeccacamissa", "https://www.linkedin.com/in/rebecca-adams-tech"]
+      }
+    </script>
 
     <!-- Apply saved theme / view before paint to avoid a flash. -->
     <script>
@@ -16,6 +50,14 @@
           var q = new URLSearchParams(location.search).get("view");
           if (localStorage.getItem("theme") === "dark") d.dataset.theme = "dark";
           if (q === "plain" || localStorage.getItem("view") === "plain") d.dataset.view = "plain";
+          var a = JSON.parse(localStorage.getItem("a11y") || "{}");
+          if (a.size && a.size !== "default") d.dataset.textSize = a.size;
+          if (a.contrast) d.dataset.contrast = "high";
+          if (a.motion) d.dataset.motion = "reduce";
+          if (a.font) {
+            d.dataset.font = "readable";
+            document.write('<link rel="stylesheet" data-readable-font href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap">');
+          }
         } catch (e) {}
       })();
     </script>
@@ -41,12 +83,14 @@
     <script src="js/sections/contact.js" defer></script>
     <script src="js/sections/footer.js" defer></script>
     <script src="js/sections/adam.js" defer></script>
+    <script src="js/sections/a11y.js" defer></script>
+    <script src="js/sections/fun.js" defer></script>
     <script src="js/main.js" defer></script>
   </head>
 
   <body id="top" class="min-h-screen font-sans antialiased">
     <a href="#main"
-       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-highlight focus:px-4 focus:py-2 focus:font-bold focus:text-onyx">
+       class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:border-2 focus:border-ink focus:bg-pink-soft focus:px-4 focus:py-2 focus:font-bold focus:text-onyx">
       Skip to content
     </a>
 
@@ -93,6 +137,10 @@
 
     <!-- Adam · animated cat site guide (js/sections/adam.js) -->
     <aside id="adam" class="adam" aria-label="Adam, site guide"></aside>
+
+    <!-- Accessibility dialogs + fun extras (js/sections/a11y.js, fun.js) -->
+    <div id="a11y"></div>
+    <div id="fun"></div>
 
     <div id="live-region" class="sr-only" aria-live="polite"></div>
   </body>

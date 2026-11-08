@@ -19,10 +19,10 @@
 
       return `
         <nav aria-label="Primary"
-             class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-5 py-3 sm:px-8">
+             class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-3 gap-y-2 px-5 sm:gap-x-6 py-3 sm:px-8">
           <a href="#top" class="group flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-ink">
             <span aria-hidden="true"
-                  class="decor grid size-9 place-items-center border-2 border-ink bg-highlight text-sm text-onyx shadow-brutal-sm transition-[rotate] duration-200 group-hover:-rotate-6">RA</span>
+                  class="decor grid size-9 place-items-center border-2 border-ink bg-pink text-sm text-onyx shadow-brutal-sm transition-[rotate] duration-200 group-hover:-rotate-6">RA</span>
             ${esc(site.name)}
           </a>
 
@@ -32,6 +32,10 @@
 
           <div class="flex items-center gap-2.5">
             ${cvLink({ cls: "btn btn-sm btn-secondary", compact: true })}
+            <button type="button" data-action="open-a11y" aria-haspopup="dialog"
+                    class="btn btn-sm btn-secondary size-10 !p-0" aria-label="Accessibility settings">
+              ${icon.access}
+            </button>
             <button type="button" data-action="toggle-theme"
                     class="btn btn-sm btn-secondary decor size-10 !p-0"
                     aria-pressed="false" aria-label="Switch to dark theme">

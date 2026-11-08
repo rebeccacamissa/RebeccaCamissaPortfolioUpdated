@@ -31,6 +31,12 @@ window.Site = (function () {
     pause: svg('<path d="M8 5v14M16 5v14"/>', "size-3.5"),
     external: svg('<path d="M7 17 17 7"/><path d="M8 7h9v9"/>', "size-3.5"),
     github: `<svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2z"/></svg>`,
+    access: svg('<circle cx="12" cy="4.5" r="2"/><path d="M5 8.5l7 1.5 7-1.5"/><path d="M12 10v5"/><path d="m8.5 21 3.5-6 3.5 6"/>', "size-5"),
+    speaker: svg('<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6"/><path d="M18 6.5a7.5 7.5 0 0 1 0 11"/>'),
+    stop: svg('<rect x="6" y="6" width="12" height="12" rx="1"/>'),
+    keyboard: svg('<rect x="2.5" y="6" width="19" height="12" rx="1.5"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/>'),
+    printer: svg('<path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="1"/><path d="M6 14h12v7H6z"/>'),
+    up: svg('<path d="M12 19V5"/><path d="m5 12 7-7 7 7"/>', "size-5"),
     linkedin: `<svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.84-2.05 3.8-2.05C20.6 8.65 21 11.2 21 14.5V21h-4v-5.8c0-1.4 0-3.2-1.95-3.2s-2.25 1.5-2.25 3.1V21H9z"/></svg>`,
   };
 
@@ -66,7 +72,9 @@ window.Site = (function () {
     } catch (_) { /* storage blocked — toggles still work for this visit */ }
   }
 
-  const motionOK = () => !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Respects both the device setting and the site's own "Reduce motion" switch.
+  const motionOK = () =>
+    document.documentElement.dataset.motion !== "reduce" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const wait = (ms) => new Promise((r) => setTimeout(r, ms));
   const pad = (n) => String(n).padStart(2, "0");
   const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
@@ -91,7 +99,7 @@ window.Site = (function () {
   function cvLink({ label, cls = "btn btn-secondary", compact = false }) {
     const cv = window.SITE_CONTENT.cv;
     const text = compact
-      ? `<span><span class="sr-only sm:not-sr-only">Download </span>CV</span>`
+      ? `<span class="sr-only sm:not-sr-only">Download CV</span>`
       : `<span data-cv-label>${esc(label)}</span>`;
     return `
       <a href="${esc(cv.href)}" download="${esc(cv.fileName)}" data-cv class="${cls}">
@@ -174,5 +182,30 @@ window.Site = (function () {
       .join("");
   }
 
-  return { esc, svg, icon, eyebrow, highlight, announce, store, motionOK, wait, pad, slug, onceVisible, cvLink, socialLinks, skillFilter, sections: {} };
+  /** Burst of brand-coloured confetti from (x, y). Skipped when motion is reduced. */
+  function confetti(x = window.innerWidth / 2, y = window.innerHeight / 3, count = 36) {
+    if (!motionOK()) return;
+    const colors = ["var(--color-pink)", "var(--color-accent)", "var(--color-highlight)", "var(--color-pink-soft)", "var(--color-paper)"];
+    const box = document.createElement("div");
+    box.className = "confetti";
+    box.setAttribute("aria-hidden", "true");
+    for (let i = 0; i < count; i++) {
+      const piece = document.createElement("i");
+      const angle = -Math.PI / 2 + (Math.random() - 0.5) * Math.PI * 1.4;
+      const dist = 70 + Math.random() * 170;
+      piece.style.setProperty("--x", `${x}px`);
+      piece.style.setProperty("--y", `${y}px`);
+      piece.style.setProperty("--tx", `${Math.cos(angle) * dist}px`);
+      piece.style.setProperty("--ty", `${Math.sin(angle) * dist}px`);
+      piece.style.setProperty("--r", `${Math.round((Math.random() - 0.5) * 900)}deg`);
+      piece.style.setProperty("--c", colors[i % colors.length]);
+      piece.style.setProperty("--d", `${Math.round(Math.random() * 120)}ms`);
+      if (i % 3 === 0) piece.className = "is-round";
+      box.appendChild(piece);
+    }
+    document.body.appendChild(box);
+    setTimeout(() => box.remove(), 2000);
+  }
+
+  return { esc, svg, icon, confetti, eyebrow, highlight, announce, store, motionOK, wait, pad, slug, onceVisible, cvLink, socialLinks, skillFilter, sections: {} };
 })();

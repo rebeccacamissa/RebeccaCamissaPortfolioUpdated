@@ -292,12 +292,12 @@ window.SITE_CONTENT = {
   },
 
   /* ------------------------- Footer · fun fact ------------------------- */
-  // Measured 8 Nov 2026: first visit ≈ 210 KB total (59 KB gzipped HTML/CSS/JS,
+  // Measured 8 Nov 2026: first visit ≈ 227 KB total (77 KB gzipped HTML/CSS/JS,
   // 82 KB photo, 69 KB fonts). Re-measure if you add heavy images or libraries.
   funFact: {
     label: "Fun fact",
     headline: "This site barely sips your data.",
-    text: "The whole page loads in about 210 KB — roughly a tenth of an average web page. On a 1 GB data bundle, you could open it around 5,000 times.",
+    text: "The whole page loads in about 230 KB — roughly a tenth of an average web page. On a 1 GB data bundle, you could open it around 4,500 times.",
     how: "How? No heavy frameworks, just two font files and one photo. Certificates and the CV only download when you ask for them.",
   },
 
@@ -319,6 +319,7 @@ window.SITE_CONTENT = {
       { label: "How do I contact her?", intent: "contact" },
       { label: "Download her CV", intent: "cv" },
       { label: "Tell me about CAPACITI", intent: "capaciti" },
+      { label: "Give me a quick tour", intent: "tour" },
     ],
 
     text: {
@@ -338,6 +339,44 @@ window.SITE_CONTENT = {
       backgroundIntro: "Rebecca's path so far — every step added a layer:",
       testimonialsIntro: "Here's what colleagues say about her:",
       locationIntro: "Rebecca is based in",
+      tourOffer: "Want the 60-second tour? I'll walk you through everything 🐾",
+      tourDone: "That's the tour! Thanks for walking with me 🐾 Tap me any time you have a question.",
+      party: "Meow meow! 🎉 You found my secret party!",
+      petted: "*purrrr* … that's the spot 😻",
+      yarn: "Adam is chasing the yarn ball!",
+      explorer: "You've explored every section — here's your Explorer badge! 🏅",
+      doodles: "You found the doodles! Rebecca loves to sketch ✏️",
     },
+
+    // Guided tour stops: `target` is a section id. {certs} / {projects} are filled in.
+    tour: [
+      { target: "hero", text: "Hi! This is Rebecca — a junior web developer in Cape Town, building through CAPACITI." },
+      { target: "story", text: "Her story: from customer service to creative tech. Hover the numbers to see what backs them up." },
+      { target: "pivot", text: "The pivot — every role added a layer. Scroll the timeline from 2024 to now." },
+      { target: "voices", text: "Colleagues' reflections. Press Play and I'll let them speak for themselves." },
+      { target: "toolkit", text: "Her toolkit — human and technical. Tap a skill tag to light up matching projects." },
+      { target: "work", text: "Selected work: {projects} projects, including a live feed of her GitHub." },
+      { target: "certificates", text: "{certs} certificates, each one readable right here on the page." },
+      { target: "contact", text: "Like what you see? Send Rebecca a message — it goes straight to her inbox." },
+    ],
+
+    // One short line the first time a visitor reaches each section.
+    reactions: {
+      story: "Ooh, Rebecca's story! Hover a number to see the proof 🐾",
+      pivot: "This is where things got interesting… the pivot!",
+      voices: "My favourite part — kind words from colleagues 😻",
+      toolkit: "Psst — tap a skill tag below and watch the projects light up.",
+      work: "Projects! Bantu Connect is my favourite 🐾",
+      certificates: "{certs} certificates! She's been busy 📚",
+      contact: "Say hello to Rebecca — she'd love to hear from you!",
+    },
+  },
+
+  /* ------------------------ Fun extras (footer) ------------------------ */
+  fun: {
+    explorerLabel: "Sections explored",
+    explorerDone: "Explorer badge earned!",
+    eggHint: "Psst — type “meow” anywhere on the page 🐾",
+    stickerHint: "psst — drag the stickers",
   },
 };

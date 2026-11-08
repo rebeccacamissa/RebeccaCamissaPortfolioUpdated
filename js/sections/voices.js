@@ -6,10 +6,10 @@
   const { esc, icon, eyebrow, announce, motionOK, pad, sections } = Site;
 
   const AVATAR = [
-    "bg-highlight text-onyx",
+    "bg-pink text-onyx",
     "bg-accent text-on-accent",
-    "bg-coral text-onyx",
-    "bg-onyx text-highlight",
+    "bg-pink-soft text-onyx",
+    "bg-ink text-paper",
   ];
 
   const initials = (name) =>

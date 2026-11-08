@@ -3,7 +3,7 @@
   "use strict";
   const { esc, icon, eyebrow, highlight, pad, slug, skillFilter, onceVisible, sections } = Site;
 
-  const BAND = ["bg-highlight text-onyx", "bg-accent text-on-accent", "bg-coral text-onyx"];
+  const BAND = ["bg-pink text-onyx", "bg-accent text-on-accent", "bg-ink text-paper"];
   const safeUrl = (url) => (/^https:\/\//i.test(url || "") ? url : "");
 
   function link(href, label, ariaLabel, ic) {

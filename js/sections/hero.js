@@ -8,7 +8,7 @@
     { pos: "lg:top-[9%] lg:left-[5%]", style: "bg-highlight text-onyx -rotate-3 [animation-delay:0s]" },
     { pos: "lg:top-[36%] lg:right-[3%]", style: "bg-paper text-ink rotate-2 [animation-delay:-1.8s]" },
     { pos: "lg:bottom-[25%] lg:left-[3%]", style: "bg-accent text-on-accent -rotate-1 [animation-delay:-3.6s]" },
-    { pos: "lg:bottom-[8%] lg:right-[7%]", style: "bg-coral text-onyx rotate-3 [animation-delay:-5.2s]" },
+    { pos: "lg:bottom-[8%] lg:right-[7%]", style: "bg-pink text-onyx rotate-3 [animation-delay:-5.2s]" },
   ];
 
   /* Kinetic marquee band under the hero — decorative, built from hero data. */
@@ -32,7 +32,7 @@
         .map((t, i) => {
           const l = TAG_LAYOUT[i % TAG_LAYOUT.length];
           return `
-          <li class="relative z-10 lg:absolute ${l.pos}">
+          <li class="sticker relative z-10 lg:absolute ${l.pos}" data-sticker>
             <span class="tag motion-safe:lg:animate-float ${l.style}">${esc(t)}</span>
           </li>`;
         })
@@ -79,14 +79,15 @@
               <span class="flex items-center gap-2.5">${socialLinks()}</span>
             </div>
 
-            <p class="mt-10 flex max-w-md items-start gap-3 border-l-4 border-highlight bg-paper-deep px-4 py-3 text-sm text-ink-soft">
-              <span class="decor mt-0.5 font-display font-bold text-accent" aria-hidden="true">↳</span>
+            <p class="mt-10 flex max-w-md items-start gap-3 border-l-4 border-pink bg-paper-deep px-4 py-3 text-sm text-ink-soft">
+              <span class="decor mt-0.5 font-display font-bold text-ink" aria-hidden="true">↳</span>
               <span>${esc(h.program.lead)} <strong class="font-display font-bold text-ink">${esc(h.program.name)}</strong> (${esc(h.program.detail)})</span>
             </p>
           </div>
 
           <!-- Visual column -->
-          <div class="plain-reset relative mt-2 min-w-0 border-2 border-ink bg-paper-deep p-6 shadow-brutal-lg paper-grid sm:p-8 lg:mt-0 lg:min-h-[540px] lg:p-0 plain:mt-8">
+          <div class="plain-reset relative mt-2 min-w-0 border-2 border-ink bg-paper-deep p-6 shadow-brutal-lg paper-grid sm:p-8 lg:mt-0 lg:min-h-[540px] lg:p-0 plain:mt-8" data-sticker-board>
+            <p class="sticker-hint decor" aria-hidden="true">${esc((site.fun && site.fun.stickerHint) || "drag the stickers")} ↗</p>
             ${
               h.photo
                 ? `<figure class="hero-photo">
@@ -97,7 +98,7 @@
                    </figure>`
                 : `<div class="decor mx-auto mb-6 grid size-28 place-items-center border-2 border-ink bg-onyx font-display text-4xl font-bold shadow-brutal
                                motion-safe:animate-float lg:absolute lg:inset-0 lg:m-auto lg:size-40 lg:-rotate-6 lg:text-6xl" aria-hidden="true">
-                     <span class="text-highlight">${esc(h.codeTag)}</span>
+                     <span class="text-pink">${esc(h.codeTag)}</span>
                    </div>`
             }
 
@@ -107,6 +108,54 @@
             </ul>
           </div>
         </div>`;
+    },
+
+    // Decorative: the floating tags can be dragged around like stickers
+    // (mouse/pen only, so touch scrolling is never hijacked). Double-click resets.
+    init(el) {
+      if (!window.matchMedia("(pointer: fine)").matches) return;
+      const board = el.querySelector("[data-sticker-board]");
+      el.querySelectorAll("[data-sticker]").forEach((li) => {
+        let drag = null;
+        const num = (prop) => parseFloat(li.style.getPropertyValue(prop)) || 0;
+
+        li.addEventListener("pointerdown", (e) => {
+          if (e.button !== 0 || document.documentElement.dataset.view === "plain") return;
+          e.preventDefault();
+          li.setPointerCapture(e.pointerId);
+          const dx = num("--dx");
+          const dy = num("--dy");
+          const r = li.getBoundingClientRect();
+          const b = board.getBoundingClientRect();
+          // Keep the sticker inside the board.
+          drag = {
+            sx: e.clientX - dx,
+            sy: e.clientY - dy,
+            minX: b.left - (r.left - dx) + 6,
+            maxX: b.right - (r.right - dx) - 6,
+            minY: b.top - (r.top - dy) + 6,
+            maxY: b.bottom - (r.bottom - dy) - 6,
+          };
+          li.classList.add("is-dragging");
+        });
+        li.addEventListener("pointermove", (e) => {
+          if (!drag) return;
+          const x = Math.max(drag.minX, Math.min(drag.maxX, e.clientX - drag.sx));
+          const y = Math.max(drag.minY, Math.min(drag.maxY, e.clientY - drag.sy));
+          li.style.setProperty("--dx", `${x}px`);
+          li.style.setProperty("--dy", `${y}px`);
+        });
+        const end = () => {
+          drag = null;
+          li.classList.remove("is-dragging");
+        };
+        li.addEventListener("pointerup", end);
+        li.addEventListener("pointercancel", end);
+        li.addEventListener("dblclick", () => {
+          li.style.removeProperty("--dx");
+          li.style.removeProperty("--dy");
+        });
+      });
     },
   };
 })(window.Site);
